@@ -16,8 +16,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private TalonFX leftTalon1;
     private TalonFX leftTalon2;
 
-    private Encoder leftEncoder, rightEncoder;
-
     public DrivetrainSubsystem() {
         rightTalon1 = new TalonFX(Constants.RIGHT_TALON_ONE);
         rightTalon2 = new TalonFX(Constants.RIGHT_TALON_TWO);
@@ -28,10 +26,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightTalon2.setNeutralMode(NeutralMode.Brake);
         leftTalon1.setNeutralMode(NeutralMode.Brake);
         leftTalon2.setNeutralMode(NeutralMode.Brake);
-
-        leftEncoder = new Encoder(Constants.LEFT_ENCODER_A, Constants.LEFT_ENCODER_B);
-        rightEncoder = new Encoder(Constants.RIGHT_ENCODER_A, Constants.RIGHT_ENCODER_B);
-
     }
 
     public void drive(double leftpower, double rightpower){
@@ -49,11 +43,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public double getLeftEncoder() {
-        return (leftEncoder.get() * Constants.DISTANCE_PER_PULSE);
+        return (leftTalon1.getSelectedSensorPosition() * Constants.DISTANCE_PER_PULSE) / (ShiftGearsSubsystem.getShifterPosition() == ShiftGearsSubsystem.ShiftStatus.HIGH ? Constants.HIGH_GEAR_RATIO : Constants.LOW_GEAR_RATIO);
     }
 
     public double getRightEncoder() {
-        return (-rightEncoder.get() * Constants.DISTANCE_PER_PULSE);
+        return (rightTalon1.getSelectedSensorPosition() * Constants.DISTANCE_PER_PULSE) / (ShiftGearsSubsystem.getShifterPosition() == ShiftGearsSubsystem.ShiftStatus.HIGH ? Constants.HIGH_GEAR_RATIO : Constants.LOW_GEAR_RATIO);
     }
 
     public double getAverageEncoder() {
@@ -61,8 +55,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        leftEncoder.reset();
-        rightEncoder.reset();
+        leftTalon1.setSelectedSensorPosition(0);
+        rightTalon1.setSelectedSensorPosition(0);
     }
 
     public void driveWithMinPower(double leftPower, double rightPower, double minAbsolutePower) {

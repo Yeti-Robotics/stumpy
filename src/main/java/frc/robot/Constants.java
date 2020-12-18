@@ -31,4 +31,10 @@ public final class Constants
     public static final int DISTANCE_PER_PULSE = 2048;
 
     public static final int DRIVER_STATION_JOY = 0;
+
+    public static final double LOW_GEAR_RATIO = 12/60;
+    public static final double HIGH_GEAR_RATIO = 30/44;
+
+    //shifter
+    public static final int[] SHIFTER_SOLENOID = {0,1};
 }
