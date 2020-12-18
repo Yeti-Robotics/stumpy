@@ -8,8 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drivetrain.DriveForDistanceCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,12 +26,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
+    public final Joystick driverStationJoy;
+    public DrivetrainSubsystem drivetrainSubsystem;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
     public RobotContainer()
     {
+        driverStationJoy = new Joystick(Constants.DRIVER_STATION_JOY);
+
+        drivetrainSubsystem = new DrivetrainSubsystem();
+
+        drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -38,8 +51,39 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        
+        setJoystickButtonWhileHeld(driverStationJoy, 1, new DriveForDistanceCommand(drivetrainSubsystem, 15, .5, .5));
     }
 
+    public double getLeftY() {
+        if(driverStationJoy.getRawAxis(1) >= .1 || driverStationJoy.getRawAxis(1) <= -.1){
+            return driverStationJoy.getRawAxis(1);
+        }else{
+            return 0;
+        }
+    // return leftJoy.getRawAxis(RobotMap.DRIVERSTATION_LEFT_Y_AXIS);
+    }
 
+  // Gets the Y direction of the left drive joystick
+  public double getLeftX() {
+    return driverStationJoy.getX();
+  }
+
+  // Gets the Y direction of the right drive joystick
+  public double getRightY() {
+    if(driverStationJoy.getRawAxis(3) >= .1 || driverStationJoy.getRawAxis(3) <= -.1){
+      return driverStationJoy.getRawAxis(3);
+    }else{
+      return 0;
+    }
+    // return rightJoy.getRawAxis(RobotMap.DRIVERSTATION_RIGHT_Y_AXIS);
+  }
+
+  // Gets the X direction of the right drive joystick
+  public double getRightX() {
+    return driverStationJoy.getX();
+  }
+  
+  private void setJoystickButtonWhileHeld(Joystick joystick, int button, CommandBase command) {
+    new JoystickButton(joystick, button).whileHeld(command);
+  }
 }

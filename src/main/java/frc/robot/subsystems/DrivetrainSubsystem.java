@@ -18,7 +18,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private Encoder leftEncoder, rightEncoder;
 
-    private DrivetrainSubsystem() {
+    public DrivetrainSubsystem() {
         rightTalon1 = new TalonFX(Constants.RIGHT_TALON_ONE);
         rightTalon2 = new TalonFX(Constants.RIGHT_TALON_TWO);
         leftTalon1 = new TalonFX(Constants.LEFT_TALON_ONE);

@@ -29,4 +29,6 @@ public final class Constants
     public static final int RIGHT_ENCODER_B = 3;
 
     public static final int DISTANCE_PER_PULSE = 2048;
+
+    public static final int DRIVER_STATION_JOY = 0;
 }
