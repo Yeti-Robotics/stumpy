@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
+import frc.robot.commands.drivetrain.ResetEncodersCommand;
+import frc.robot.commands.shifting.ToggleShiftingCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShiftGearsSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,6 +31,7 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     public final Joystick driverStationJoy;
     public DrivetrainSubsystem drivetrainSubsystem;
+    public ShiftGearsSubsystem shiftGearsSubsystem;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -37,6 +41,7 @@ public class RobotContainer
         driverStationJoy = new Joystick(Constants.DRIVER_STATION_JOY);
 
         drivetrainSubsystem = new DrivetrainSubsystem();
+        shiftGearsSubsystem = new ShiftGearsSubsystem();
 
         drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
         // Configure the button bindings
@@ -52,6 +57,9 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         setJoystickButtonWhileHeld(driverStationJoy, 1, new DriveForDistanceCommand(drivetrainSubsystem, 15, .5, .5));
+        setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
+        //Shift Gears
+        setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
     }
 
     public double getLeftY() {
@@ -85,5 +93,9 @@ public class RobotContainer
   
   private void setJoystickButtonWhileHeld(Joystick joystick, int button, CommandBase command) {
     new JoystickButton(joystick, button).whileHeld(command);
+  }
+
+  private void setJoystickButtonWhenPressed(Joystick joystick, int button, CommandBase command) {
+    new JoystickButton(joystick, button).whenPressed(command);
   }
 }

@@ -18,22 +18,25 @@ package frc.robot;
 public final class Constants 
 {
     //Drivetrain constants
-    public static final int RIGHT_TALON_ONE = 14;
-    public static final int RIGHT_TALON_TWO = 7;
-    public static final int LEFT_TALON_ONE = 6;
-    public static final int LEFT_TALON_TWO = 3;
+    public static final int RIGHT_FALCON_ONE = 14;
+    public static final int RIGHT_FALCON_TWO = 7;
+    public static final int LEFT_FALCON_ONE = 6;
+    public static final int LEFT_FALCON_TWO = 3;
 
     public static final int LEFT_ENCODER_A = 0;
     public static final int LEFT_ENCODER_B = 1;
     public static final int RIGHT_ENCODER_A = 2;
     public static final int RIGHT_ENCODER_B = 3;
 
-    public static final int DISTANCE_PER_PULSE = 2048;
-
     public static final int DRIVER_STATION_JOY = 0;
 
-    public static final double LOW_GEAR_RATIO = 12/60;
-    public static final double HIGH_GEAR_RATIO = 30/44;
+    public static final double LOW_GEAR_RATIO = 15.0;
+    public static final double HIGH_GEAR_RATIO = 5.13;
+
+    public static final int PULSE_PER_REV = 2048;
+    public static final double WHEEL_DIAMETER = 4.0;
+
+    public static final double DISTANCE_PER_PULSE =  (WHEEL_DIAMETER * Math.PI) / PULSE_PER_REV;
 
     //shifter
     public static final int[] SHIFTER_SOLENOID = {0,1};
