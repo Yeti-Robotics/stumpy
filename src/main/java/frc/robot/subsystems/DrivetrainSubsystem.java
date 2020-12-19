@@ -26,6 +26,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightTalon2.setNeutralMode(NeutralMode.Brake);
         leftTalon1.setNeutralMode(NeutralMode.Brake);
         leftTalon2.setNeutralMode(NeutralMode.Brake);
+
+        leftTalon1.setInverted(false);
+        rightTalon1.setInverted(true);
+        rightTalon2.setInverted(true);
     }
 
     public void drive(double leftpower, double rightpower){

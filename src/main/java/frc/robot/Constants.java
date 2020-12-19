@@ -18,9 +18,9 @@ package frc.robot;
 public final class Constants 
 {
     //Drivetrain constants
-    public static final int RIGHT_TALON_ONE = 0;
-    public static final int RIGHT_TALON_TWO = 1;
-    public static final int LEFT_TALON_ONE = 2;
+    public static final int RIGHT_TALON_ONE = 14;
+    public static final int RIGHT_TALON_TWO = 7;
+    public static final int LEFT_TALON_ONE = 6;
     public static final int LEFT_TALON_TWO = 3;
 
     public static final int LEFT_ENCODER_A = 0;
