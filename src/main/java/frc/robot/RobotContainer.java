@@ -57,7 +57,7 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        setJoystickButtonWhileHeld(driverStationJoy, 1, new SlalomTestCommandGroup(drivetrainSubsystem));
+        setJoystickButtonWhenPressed(driverStationJoy, 1, new SlalomTestCommandGroup(drivetrainSubsystem));
         setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
