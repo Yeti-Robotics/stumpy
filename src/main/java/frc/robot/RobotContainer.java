@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
+import frc.robot.commands.drivetrain.PathWeaverTest;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
 import frc.robot.commands.drivetrain.SlalomTestCommandGroup;
 import frc.robot.commands.shifting.ToggleShiftingCommand;
@@ -59,6 +60,7 @@ public class RobotContainer
     {
         setJoystickButtonWhenPressed(driverStationJoy, 1, new SlalomTestCommandGroup(drivetrainSubsystem));
         setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
+        setJoystickButtonWhenPressed(driverStationJoy, 2, new PathWeaverTest(drivetrainSubsystem));
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
     }

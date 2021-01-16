@@ -1,14 +1,20 @@
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -49,6 +55,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public double getAngle(){
         return gyro.getAngle();
+    }
+
+    public void testPathWeaver(){
+        String trajectoryJSON = "paths/Test.wpilib.json";
+        Trajectory trajectory = new Trajectory(null);
+        try {
+             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
     }
 
     public void drive(double leftpower, double rightpower){
