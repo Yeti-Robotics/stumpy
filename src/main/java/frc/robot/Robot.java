@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -25,7 +23,6 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
 
     private RobotContainer robotContainer;
-    private final ADIS16448_IMU m_imu = new ADIS16448_IMU();
 
 
     /**
@@ -55,7 +52,6 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        System.out.println(m_imu.getAngle());
     }
 
     /**

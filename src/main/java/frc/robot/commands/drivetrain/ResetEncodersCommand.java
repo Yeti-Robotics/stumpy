@@ -25,5 +25,6 @@ public class ResetEncodersCommand extends InstantCommand {
   @Override
   public void initialize() {
     drivetrainSubsystem.resetEncoder();
+    drivetrainSubsystem.resetGyro();
   }
 }
