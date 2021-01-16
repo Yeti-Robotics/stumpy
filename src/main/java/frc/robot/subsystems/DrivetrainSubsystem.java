@@ -46,6 +46,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void resetGyro() {
         gyro.reset();
     }
+
+    public double getAngle(){
+        return gyro.getAngle();
+    }
+
     public void drive(double leftpower, double rightpower){
         rightFalcon1.set(ControlMode.PercentOutput, rightpower);
         rightFalcon2.set(ControlMode.PercentOutput, rightpower);
