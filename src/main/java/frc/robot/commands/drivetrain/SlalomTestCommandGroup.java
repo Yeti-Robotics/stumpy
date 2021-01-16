@@ -8,9 +8,16 @@ public class SlalomTestCommandGroup extends SequentialCommandGroup {
     public SlalomTestCommandGroup(DrivetrainSubsystem drivetrainSubsystem) {
         super();
         addCommands(
-                new DriveForDistanceCommand(drivetrainSubsystem, 72, 1.0, 1.0),
-                new TurnForAngleCommand(drivetrainSubsystem, 45, 0.5, 0.5),
-                new DriveForDistanceCommand(drivetrainSubsystem, 120, 1.0, 1.0)
+                new DriveForDistanceCommand(drivetrainSubsystem, 72, 0.5, 0.5),
+                new TurnForAngleCommand(drivetrainSubsystem, 35, 0.5, 0.5),
+                new DriveForDistanceCommand(drivetrainSubsystem, 120, 0.5, 0.5),
+                new TurnForAngleCommand(drivetrainSubsystem, 15, 0.5, 0.5),
+                new DriveForDistanceCommand(drivetrainSubsystem, 45, 0.25, 0.25),
+                new TurnForAngleCommand(drivetrainSubsystem, -90, 0.5, 0.5),
+                new DriveForDistanceCommand(drivetrainSubsystem, 50, 0.25, 0.25),
+                new TurnForAngleCommand(drivetrainSubsystem, -90, 0.5, 0.5),
+                new DriveForDistanceCommand(drivetrainSubsystem, 50, 0.25, 0.25),
+                new TurnForAngleCommand(drivetrainSubsystem, -90, 0.5, 0.5)
         );
     }
 }

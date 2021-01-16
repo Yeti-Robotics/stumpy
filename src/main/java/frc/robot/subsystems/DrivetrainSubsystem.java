@@ -57,16 +57,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return gyro.getAngle();
     }
 
-    public void testPathWeaver(){
-        String trajectoryJSON = "paths/Test.wpilib.json";
-        Trajectory trajectory = new Trajectory(null);
-        try {
-             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-        }
-    }
+    // public void testPathWeaver(){
+    //     String trajectoryJSON = "paths/Test.wpilib.json";
+    //     Trajectory trajectory = new Trajectory(null);
+    //     try {
+    //          Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    //         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    //         System.out.println("inside try");
+    //     } catch (IOException ex) {
+    //         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    //         System.out.println("inside catch");
+    //     }
+    // }
 
     public void drive(double leftpower, double rightpower){
         rightFalcon1.set(ControlMode.PercentOutput, rightpower);
@@ -110,7 +112,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //    System.out.println("Average Distance: " + getAverageEncoder());
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
-    System.out.println("gyro value mayb: " + gyro.getAngle());
+    //System.out.println("gyro value mayb: " + gyro.getAngle());
     }
 }
 
