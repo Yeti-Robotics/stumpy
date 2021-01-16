@@ -39,16 +39,16 @@ public class PathWeaverTest extends CommandBase {
   public void execute() {
     System.out.println("PathWeaverTest executing");
   
-    String trajectoryJSON = "paths/Test.wpilib.json";
+    String trajectoryJSON = "src/main/deploy/paths/Test.wpilib.json";
     Trajectory trajectory = new Trajectory(null);
-    // try {
-    //      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    //     System.out.println("inside try");
-    // } catch (IOException ex) {
-    //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    //     System.out.println("inside catch");
-    // }
+    try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        System.out.println("inside try");
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        System.out.println("inside catch");
+    }
     }
 
   // Called once the command ends or is interrupted.
