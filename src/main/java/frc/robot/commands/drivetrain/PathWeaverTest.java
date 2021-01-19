@@ -31,8 +31,12 @@ public class PathWeaverTest extends CommandBase {
   Trajectory trajectory;
 
   public PathWeaverTest(DrivetrainSubsystem drivetrainSubsystem) {
-      this.drivetrainSubsystem = drivetrainSubsystem;
-      addRequirements(drivetrainSubsystem);
+    this.drivetrainSubsystem = drivetrainSubsystem;
+      if (this.drivetrainSubsystem == null) System.out.println("thing is null");
+        addRequirements(drivetrainSubsystem);
+        System.out.println("PathWeaverTest constursuifehia");
+      
+
       // trajectoryJSON = "paths/Test.wpilib.json";
 
       // List<State> trajectoryList = new ArrayList<>();
@@ -60,7 +64,7 @@ public class PathWeaverTest extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    String trajectoryJSON = "C:/Users/YETI/stumpy/PathWeaver/output/Test.wpilib.json";
+    String trajectoryJSON = "paths/Test.wpilib.json";
     // Trajectory trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -68,7 +72,7 @@ public class PathWeaverTest extends CommandBase {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
-    System.out.println(trajectory.toString());
+    if(trajectory != null) System.out.println("we read :)");
     System.out.println("PathWeaverTest initialized");
     
   }
