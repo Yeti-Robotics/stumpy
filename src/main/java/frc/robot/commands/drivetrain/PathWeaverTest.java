@@ -33,36 +33,42 @@ public class PathWeaverTest extends CommandBase {
   public PathWeaverTest(DrivetrainSubsystem drivetrainSubsystem) {
       this.drivetrainSubsystem = drivetrainSubsystem;
       addRequirements(drivetrainSubsystem);
-      trajectoryJSON = "paths/Test.wpilib.json";
-      trajectory = new Trajectory();
+      // trajectoryJSON = "paths/Test.wpilib.json";
 
-      List<String> trajectoryList = new ArrayList<>();
-        try {
-            //Class<?> cls = Class.forName("JSONparsing.class");
-            //ClassLoader classLoader = cls.getClassLoader();
-            //JsonReader reader = new JsonReader(new FileReader(classLoader.getResource("links.json").getFile()));
-            JsonReader reader = new JsonReader(new FileReader(""));
-            reader.beginObject();
-            while (reader.hasNext()) {
-                String value = reader.nextString();
-                trajectoryList.add(value);
-            }
-            reader.endObject();
-            reader.close();
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        System.out.println(trajectoryList.toString());
-    }
-
-
-    }
+      // List<State> trajectoryList = new ArrayList<>();
+      //   try {
+      //       //Class<?> cls = Class.forName("JSONparsing.class");
+      //       //ClassLoader classLoader = cls.getClassLoader();
+      //       //JsonReader reader = new JsonReader(new FileReader(classLoader.getResource("links.json").getFile()));
+      //       JsonReader reader = new JsonReader(new FileReader("C:\Users\YETI\stumpy\PathWeaver\output\Test.wpilib.json"));
+      //       reader.beginObject();
+      //       while (reader.hasNext()) {
+      //           String value = reader.nextString();
+      //           trajectoryList.add(value);
+      //       }
+      //       reader.endObject();
+      //       reader.close();
+      //   } catch (FileNotFoundException fnfe) {
+      //       fnfe.printStackTrace();
+      //   } catch (IOException ioe) {
+      //       ioe.printStackTrace();
+      //   }
+      //   System.out.println(trajectoryList.toString());
+      //   trajectory = new Trajectory(trajectoryList);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    String trajectoryJSON = "C:/Users/YETI/stumpy/PathWeaver/output/Test.wpilib.json";
+    // Trajectory trajectory = new Trajectory();
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
+    System.out.println(trajectory.toString());
     System.out.println("PathWeaverTest initialized");
     
   }
@@ -71,15 +77,6 @@ public class PathWeaverTest extends CommandBase {
   @Override
   public void execute() {
     System.out.println("PathWeaverTest executing");
-  
-    try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        System.out.println("inside try");
-    } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-        System.out.println("inside catch");
-    }
     }
 
   // Called once the command ends or is interrupted.
