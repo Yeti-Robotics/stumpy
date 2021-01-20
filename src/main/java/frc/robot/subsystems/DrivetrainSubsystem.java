@@ -13,6 +13,9 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,7 +29,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private TalonFX leftFalcon2;
     private ADIS16448_IMU gyro;
     
-    // private final DifferentialDriveOdometry m_odometry;
+    private final DifferentialDriveOdometry m_odometry;
 
 
 
@@ -50,6 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
+
+        m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     }
 
     public void resetGyro() {
@@ -109,6 +114,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double realRightPower = (rightPower / Math.abs(rightPower)) * Math.max(Math.abs(rightPower), minAbsolutePower);
     }
 
+    //trajectory code gotten from "https://docs.wpilib.org/en/stable/docs/software/examples-tutorials/trajectory-tutorial/creating-drive-subsystem.html"
     public void periodic() {
     //    System.out.println("Right EnDist: " + getRightEncoder());
     //    System.out.println("Left EnDist: " + getLeftEncoder());
@@ -116,6 +122,84 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
     //System.out.println("gyro value mayb: " + gyro.getAngle());
+
+        // Update the odometry in the periodic block
+        m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
+    }
+
+     /**
+    * Returns the currently-estimated pose of the robot.
+    *
+    * @return The pose.
+    */
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
+
+    /**
+     * Returns the current wheel speeds of the robot.
+     *
+     * @return The current wheel speeds.
+     */
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+    }
+
+    /**
+     * Resets the odometry to the specified pose.
+     *
+     * @param pose The pose to which to set the odometry.
+     */
+    public void resetOdometry(Pose2d pose) {
+        resetEncoder();
+        m_odometry.resetPosition(pose, gyro.getRotation2d());
+    }
+
+    /**
+    * Controls the left and right sides of the drive directly with voltages.
+    *
+    * @param leftVolts  the commanded left output
+    * @param rightVolts the commanded right output
+    */
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        m_leftMotors.setVoltage(leftVolts);
+        m_rightMotors.setVoltage(-rightVolts);
+        m_drive.feed();
+    }
+
+
+     /**
+    * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+    *
+    * @param maxOutput the maximum output to which the drive will be constrained
+    */
+    public void setMaxOutput(double maxOutput) {
+        m_drive.setMaxOutput(maxOutput);
+    }
+
+    /**
+     * Zeroes the heading of the robot.
+     */
+    public void zeroHeading() {
+        gyro.reset();
+    }
+
+    /**
+     * Returns the heading of the robot.
+     *
+     * @return the robot's heading in degrees, from -180 to 180
+     */
+    public double getHeading() {
+        return gyro.getRotation2d().getDegrees();
+    }
+
+    /**
+     * Returns the turn rate of the robot.
+     *
+     * @return The turn rate of the robot, in degrees per second
+     */
+    public double getTurnRate() {
+        return -gyro.getRate();
     }
 }
 
