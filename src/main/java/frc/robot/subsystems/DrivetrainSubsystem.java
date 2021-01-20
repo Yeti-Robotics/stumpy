@@ -25,6 +25,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private TalonFX leftFalcon1;
     private TalonFX leftFalcon2;
     private ADIS16448_IMU gyro;
+    
+    // private final DifferentialDriveOdometry m_odometry;
+
 
 
     public DrivetrainSubsystem() {
