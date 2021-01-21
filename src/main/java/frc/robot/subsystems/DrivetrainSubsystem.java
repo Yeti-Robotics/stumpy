@@ -13,6 +13,10 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -20,6 +24,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -31,7 +36,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     private final DifferentialDriveOdometry m_odometry;
 
-
+    private final Victor victorTest;
+    private final DifferentialDrive drive;
 
     public DrivetrainSubsystem() {
         rightFalcon1 = new TalonFX(Constants.RIGHT_FALCON_ONE);
@@ -51,6 +57,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightFalcon1.setInverted(true);
         rightFalcon2.setInverted(true);
         
+        victorTest = new Victor(0);
+        drive = new DifferentialDrive(victorTest,new Victor(1));
+
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
 
@@ -142,7 +151,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @return The current wheel speeds.
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+        //oroginal method is getRate() from encoder class
+        return new DifferentialDriveWheelSpeeds(rightFalcon1.getSelectedSensorVelocity(), leftFalcon1.getSelectedSensorVelocity());
     }
 
     /**
@@ -162,9 +172,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     * @param rightVolts the commanded right output
     */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        m_leftMotors.setVoltage(leftVolts);
-        m_rightMotors.setVoltage(-rightVolts);
-        m_drive.feed();
+        //there is no setvoltage() so i basically translated source code into what can be passed into talonFX
+        leftFalcon1.set(ControlMode.PercentOutput, leftVolts/ RobotController.getBatteryVoltage());
+        rightFalcon1.set(ControlMode.PercentOutput, -rightVolts/ RobotController.getBatteryVoltage());
+        //resets watchdog timer for motor saftey,idk how to fix
+        // drive.feed();
     }
 
 
@@ -174,7 +186,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     * @param maxOutput the maximum output to which the drive will be constrained
     */
     public void setMaxOutput(double maxOutput) {
-        m_drive.setMaxOutput(maxOutput);
+        drive.setMaxOutput(maxOutput);
     }
 
     /**
