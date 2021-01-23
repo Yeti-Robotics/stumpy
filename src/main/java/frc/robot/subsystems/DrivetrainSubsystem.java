@@ -1,30 +1,20 @@
 package frc.robot.subsystems;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
-import com.analog.adis16448.frc.ADIS16448_IMU;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -33,17 +23,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private TalonFX leftFalcon1;
     private TalonFX leftFalcon2;
     private ADIS16448_IMU gyro;
+    private WPI_TalonFX testFalcon;
     
     private final DifferentialDriveOdometry m_odometry;
 
-    private final Victor victorTest;
-    private final DifferentialDrive drive;
+    // private final Victor victorTest;
+    // private final DifferentialDrive drive;
+    public static final DifferentialDrive drive = new DifferentialDrive(new WPI_TalonFX(7), new WPI_TalonFX(7));
+
+    
 
     public DrivetrainSubsystem() {
         rightFalcon1 = new TalonFX(Constants.RIGHT_FALCON_ONE);
         rightFalcon2 = new TalonFX(Constants.RIGHT_FALCON_TWO);
         leftFalcon1 = new TalonFX(Constants.LEFT_FALCON_ONE);
         leftFalcon2 = new TalonFX(Constants.LEFT_FALCON_TWO);
+        // testFalcon = new WPI_TalonFX(7);
+
 
         gyro = new ADIS16448_IMU();
         gyro.calibrate();
@@ -58,8 +54,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightFalcon1.setInverted(true);
         rightFalcon2.setInverted(true);
         
-        victorTest = new Victor(0);
-        drive = new DifferentialDrive(victorTest,new Victor(1));
+        // victorTest = new Victor(0);
+        // drive = new DifferentialDrive(victorTest,new Victor(1));
+
+        // m_robotDrive = new DifferentialDrive(testFalcon, testFalcon);
 
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);

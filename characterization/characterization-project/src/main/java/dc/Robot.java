@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
         // set right side methods = encoder methods
 
           
-        motor.setSensorPhase(true);
+        motor.setSensorPhase(false);
         rightEncoderPosition = ()
           -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
         rightEncoderRate = ()
@@ -172,6 +172,10 @@ public class Robot extends TimedRobot {
     rightFollowerID7.follow(rightMotor);
     drive = new DifferentialDrive(leftMotor, rightMotor);
     drive.setDeadband(0);
+
+    
+    rightMotor.configSelectedFeedbackCoefficient(-1);
+    rightFollowerID7.configSelectedFeedbackCoefficient(-1);
 
     //
     // Configure gyro

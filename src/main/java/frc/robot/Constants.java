@@ -42,9 +42,9 @@ public final class Constants
     public static final double DISTANCE_PER_PULSE =  (WHEEL_DIAMETER * Math.PI) / PULSE_PER_REV;
 
     //pathweaver (all avalues are place holders)
-    public static final double ksVolts = 0.22;
-    public static final double kvVoltSecondsPerMeter = 1.98;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+    public static final double ksVolts = 0.685;
+    public static final double kvVoltSecondsPerMeter = 0.0899;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.00512;
 
     public static final double kTrackwidthMeters = 0.69;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
@@ -56,8 +56,12 @@ public final class Constants
     public static final double kRamseteZeta = 0.7;
 
     // tunneee
-    public static final double kPDriveVel = 8.5;
+    public static final double kPDriveVel = 2.68e-34;
 
     //shifter
     public static final int[] SHIFTER_SOLENOID = {0,1};
+
+    //shooter motor constants
+    public static final int RIGHT_SHOOTER_MOTOR = 8;
+    public static final int LEFT_SHOOTER_MOTOR = 5;
 }

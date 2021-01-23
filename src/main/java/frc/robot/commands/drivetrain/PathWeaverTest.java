@@ -37,14 +37,14 @@ public class PathWeaverTest extends CommandBase {
         System.out.println("PathWeaverTest constursuifehia");
       
 
-      // trajectoryJSON = "paths/Test.wpilib.json";
+      // trajectoryJSON = "paths/Test.wpilib";
 
       // List<State> trajectoryList = new ArrayList<>();
       //   try {
       //       //Class<?> cls = Class.forName("JSONparsing.class");
       //       //ClassLoader classLoader = cls.getClassLoader();
-      //       //JsonReader reader = new JsonReader(new FileReader(classLoader.getResource("links.json").getFile()));
-      //       JsonReader reader = new JsonReader(new FileReader("C:\Users\YETI\stumpy\PathWeaver\output\Test.wpilib.json"));
+      //       //JsonReader reader = new JsonReader(new FileReader(classLoader.getResource("links").getFile()));
+      //       JsonReader reader = new JsonReader(new FileReader("C:\Users\YETI\stumpy\PathWeaver\output\Test.wpilib"));
       //       reader.beginObject();
       //       while (reader.hasNext()) {
       //           String value = reader.nextString();
@@ -64,7 +64,7 @@ public class PathWeaverTest extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    String trajectoryJSON = "paths/Test.wpilib.json";
+    String trajectoryJSON = "paths/Test.wpilib";
     // Trajectory trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);

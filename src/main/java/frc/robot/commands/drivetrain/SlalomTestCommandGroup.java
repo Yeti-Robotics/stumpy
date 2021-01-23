@@ -8,6 +8,7 @@ public class SlalomTestCommandGroup extends SequentialCommandGroup {
     public SlalomTestCommandGroup(DrivetrainSubsystem drivetrainSubsystem) {
         super();
         addCommands(
+            // brute force of the slalom course
                 new DriveForDistanceCommand(drivetrainSubsystem, 72, 0.5, 0.5),
                 new TurnForAngleCommand(drivetrainSubsystem, 35, 0.5, 0.5),
                 new DriveForDistanceCommand(drivetrainSubsystem, 120, 0.5, 0.5),
