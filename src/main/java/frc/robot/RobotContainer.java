@@ -61,6 +61,8 @@ public class RobotContainer
         setJoystickButtonWhenPressed(driverStationJoy, 1, new SlalomTestCommandGroup(drivetrainSubsystem));
         setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
         setJoystickButtonWhenPressed(driverStationJoy, 2, new PathWeaverTest(drivetrainSubsystem));
+
+        setJoystickButtonWhenPressed(driverStationJoy, 7, new DriveForDistanceCommand(drivetrainSubsystem, 204, 1, 1));
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
     }

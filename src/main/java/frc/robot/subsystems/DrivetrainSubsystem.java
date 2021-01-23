@@ -54,6 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftFalcon2.setNeutralMode(NeutralMode.Brake);
 
         leftFalcon1.setInverted(false);
+        leftFalcon1.setInverted(false);
         rightFalcon1.setInverted(true);
         rightFalcon2.setInverted(true);
         

@@ -55,9 +55,9 @@ import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
 
-  static private double ENCODER_EDGES_PER_REV = 2048 / 4.;
+  static private double ENCODER_EDGES_PER_REV = 16384 / 4.;
   static private int PIDIDX = 0;
-  static private int ENCODER_EPR = 2048;
+  static private int ENCODER_EPR = 16384;
   static private double GEARING = 5.13;
   
   private double encoderConstant = (1 / GEARING) * (1 / ENCODER_EDGES_PER_REV);
@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
         // set right side methods = encoder methods
 
           
-        motor.setSensorPhase(false);
+        motor.setSensorPhase(true);
         rightEncoderPosition = ()
           -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
         rightEncoderRate = ()
