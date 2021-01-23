@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.TestShootingCommand;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
 import frc.robot.commands.drivetrain.PathWeaverTest;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
@@ -21,6 +22,7 @@ import frc.robot.commands.drivetrain.SlalomTestCommandGroup;
 import frc.robot.commands.shifting.ToggleShiftingCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ShiftGearsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,6 +36,7 @@ public class RobotContainer
     public final Joystick driverStationJoy;
     public DrivetrainSubsystem drivetrainSubsystem;
     public ShiftGearsSubsystem shiftGearsSubsystem;
+    public ShooterSubsystem shooterSubsystem;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -44,6 +47,7 @@ public class RobotContainer
 
         drivetrainSubsystem = new DrivetrainSubsystem();
         shiftGearsSubsystem = new ShiftGearsSubsystem();
+        shooterSubsystem = new ShooterSubsystem();
 
         drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
         // Configure the button bindings
@@ -62,9 +66,14 @@ public class RobotContainer
         setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
         setJoystickButtonWhenPressed(driverStationJoy, 2, new PathWeaverTest(drivetrainSubsystem));
 
-        setJoystickButtonWhenPressed(driverStationJoy, 7, new DriveForDistanceCommand(drivetrainSubsystem, 204, 1, 1));
+        setJoystickButtonWhenPressed(driverStationJoy, 7, new DriveForDistanceCommand(drivetrainSubsystem, 36, 1, 1));
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
+
+        //testing shooter
+        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 1.0));
+        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
+
     }
 
     public double getLeftY() {
