@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -18,27 +19,31 @@ import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
-    private TalonFX rightFalcon1;
-    private TalonFX rightFalcon2;
-    private TalonFX leftFalcon1;
-    private TalonFX leftFalcon2;
+    private WPI_TalonFX rightFalcon1;
+    private WPI_TalonFX rightFalcon2;
+    private WPI_TalonFX leftFalcon1;
+    private WPI_TalonFX leftFalcon2;
     private ADIS16448_IMU gyro;
-    private WPI_TalonFX testFalcon;
+    // private WPI_TalonFX testFalcon;
     
     private final DifferentialDriveOdometry m_odometry;
 
     // private final Victor victorTest;
     // private final DifferentialDrive drive;
-    public static final DifferentialDrive drive = new DifferentialDrive(new WPI_TalonFX(7), new WPI_TalonFX(7));
-
+    public final DifferentialDrive drive;
+    public final SpeedControllerGroup rightSide;
+    public final SpeedControllerGroup leftSide; 
     
 
     public DrivetrainSubsystem() {
-        rightFalcon1 = new TalonFX(Constants.RIGHT_FALCON_ONE);
-        rightFalcon2 = new TalonFX(Constants.RIGHT_FALCON_TWO);
-        leftFalcon1 = new TalonFX(Constants.LEFT_FALCON_ONE);
-        leftFalcon2 = new TalonFX(Constants.LEFT_FALCON_TWO);
+        rightFalcon1 = new WPI_TalonFX(Constants.RIGHT_FALCON_ONE);
+        rightFalcon2 = new WPI_TalonFX(Constants.RIGHT_FALCON_TWO);
+        leftFalcon1 = new WPI_TalonFX(Constants.LEFT_FALCON_ONE);
+        leftFalcon2 = new WPI_TalonFX(Constants.LEFT_FALCON_TWO);
         // testFalcon = new WPI_TalonFX(7);
+        rightSide = new SpeedControllerGroup(rightFalcon1, rightFalcon2);
+        leftSide = new SpeedControllerGroup(leftFalcon1, leftFalcon2);
+        drive = new DifferentialDrive(leftSide, rightSide);
 
 
         gyro = new ADIS16448_IMU();
@@ -172,10 +177,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         //there is no setvoltage() so i basically translated source code into what can be passed into talonFX
-        leftFalcon1.set(ControlMode.PercentOutput, leftVolts/ RobotController.getBatteryVoltage());
-        rightFalcon1.set(ControlMode.PercentOutput, -rightVolts/ RobotController.getBatteryVoltage());
+        leftSide.setVoltage(leftVolts);
+        rightSide.setVoltage(rightVolts);
         //resets watchdog timer for motor saftey,idk how to fix
-        // drive.feed();
+        drive.feed();
     }
 
 
