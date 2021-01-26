@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import jdk.jfr.Enabled;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -45,7 +46,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftSide = new SpeedControllerGroup(leftFalcon1, leftFalcon2);
         drive = new DifferentialDrive(leftSide, rightSide);
 
-
+        drive.setSafetyEnabled(false);
+        
         gyro = new ADIS16448_IMU();
         gyro.calibrate();
 
@@ -104,6 +106,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftFalcon1.set(ControlMode.PercentOutput, 0);
         leftFalcon2.set(ControlMode.PercentOutput, 0);
     }
+
+    public void tankDrive(double leftpower, double rightpower) {
+        drive.tankDrive(leftpower, rightpower);
+      }
 
     public double getLeftEncoder() {
         return (leftFalcon1.getSelectedSensorPosition() * Constants.DISTANCE_PER_PULSE) / (ShiftGearsSubsystem.getShifterPosition() == ShiftGearsSubsystem.ShiftStatus.HIGH ? Constants.HIGH_GEAR_RATIO : Constants.LOW_GEAR_RATIO);
