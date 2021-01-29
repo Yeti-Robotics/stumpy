@@ -143,7 +143,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //System.out.println("gyro value mayb: " + gyro.getAngle());
 
         // Update the odometry in the periodic block
-        System.out.println(getWheelSpeeds());
         m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
     }
 

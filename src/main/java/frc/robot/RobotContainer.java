@@ -62,18 +62,7 @@ public class RobotContainer
         shiftGearsSubsystem = new ShiftGearsSubsystem();
         shooterSubsystem = new ShooterSubsystem();
 
-        // drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
-        drivetrainSubsystem.setDefaultCommand(
-          // A split-stick arcade command, with forward/backward controlled by the left
-          // hand, and turning controlled by the right.
-          new RunCommand(
-              () ->
-                  drivetrainSubsystem.arcadeDrive(
-                      getLeftY(),
-                      getRightX()),
-              drivetrainSubsystem));
-    
-
+        drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -96,8 +85,8 @@ public class RobotContainer
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
 
         //testing shooter
-        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 1.0));
-        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
+        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 0.5));
+        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -0.5));
 
     }
 

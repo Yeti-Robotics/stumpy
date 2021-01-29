@@ -19,9 +19,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
-// import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-// import edu.wpi.first.wpilibj.AnalogGyro;
-// import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
   Supplier<Double> leftEncoderRate;
   Supplier<Double> rightEncoderPosition;
   Supplier<Double> rightEncoderRate;
-  // Supplier<Double> gyroAngleRadians;
+  Supplier<Double> gyroAngleRadians;
 
   NetworkTableEntry autoSpeedEntry = NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
   NetworkTableEntry telemetryEntry = NetworkTableInstance.getDefault().getEntry("/robot/telemetry");
@@ -173,18 +173,14 @@ public class Robot extends TimedRobot {
     drive = new DifferentialDrive(leftMotor, rightMotor);
     drive.setDeadband(0);
 
-    
-    rightMotor.configSelectedFeedbackCoefficient(-1);
-    rightFollowerID7.configSelectedFeedbackCoefficient(-1);
-
     //
     // Configure gyro
     //
 
     // Note that the angle from the NavX and all implementors of WPILib Gyro
     // must be negated because getAngle returns a clockwise positive angle
-    // Gyro gyro = new ADXRS450_Gyro();
-    // gyroAngleRadians = () -> -1 * Math.toRadians(gyro.getAngle());
+    Gyro gyro = new ADXRS450_Gyro();
+    gyroAngleRadians = () -> -1 * Math.toRadians(gyro.getAngle());
 
     // Set the update rate instead of using flush because of a ntcore bug
     // -> probably don't want to do this on a robot in competition
@@ -281,7 +277,7 @@ public class Robot extends TimedRobot {
     numberArray[6] = rightPosition;
     numberArray[7] = leftRate;
     numberArray[8] = rightRate;
-    // numberArray[9] = gyroAngleRadians.get();
+    numberArray[9] = gyroAngleRadians.get();
 
     // Add data to a string that is uploaded to NT
     for (double num : numberArray) {
