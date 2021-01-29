@@ -143,6 +143,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //System.out.println("gyro value mayb: " + gyro.getAngle());
 
         // Update the odometry in the periodic block
+        System.out.println(getWheelSpeeds());
         m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
     }
 
@@ -161,7 +162,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @return The current wheel speeds.
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        //oroginal method is getRate() from encoder class
+        System.out.println("getting da wheel speeds!");
+        //original method is getRate() from encoder class
         return new DifferentialDriveWheelSpeeds(rightFalcon1.getSelectedSensorVelocity(), leftFalcon1.getSelectedSensorVelocity());
     }
 
@@ -182,10 +184,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     * @param rightVolts the commanded right output
     */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        //there is no setvoltage() so i basically translated source code into what can be passed into talonFX
+        System.out.println("tank volt drives getting something");
         leftSide.setVoltage(leftVolts);
         rightSide.setVoltage(rightVolts);
-        //resets watchdog timer for motor saftey,idk how to fix
         drive.feed();
     }
 
@@ -223,5 +224,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public double getTurnRate() {
         return -gyro.getRate();
     }
+
+    public void arcadeDrive(double fwd, double rot) {
+        drive.arcadeDrive(fwd, rot);
+      }
 }
 
