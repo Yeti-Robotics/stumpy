@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Victor;
@@ -24,7 +25,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private WPI_TalonFX rightFalcon2;
     private WPI_TalonFX leftFalcon1;
     private WPI_TalonFX leftFalcon2;
-    private ADIS16448_IMU gyro;
+    private ADXRS450_Gyro gyro;
     // private WPI_TalonFX testFalcon;
     
     private final DifferentialDriveOdometry m_odometry;
@@ -46,20 +47,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftSide = new SpeedControllerGroup(leftFalcon1, leftFalcon2);
         drive = new DifferentialDrive(leftSide, rightSide);
 
-        drive.setSafetyEnabled(false);
+        // drive.setSafetyEnabled(false);
         
-        gyro = new ADIS16448_IMU();
+        gyro = new ADXRS450_Gyro();
         gyro.calibrate();
+        gyro.reset();
 
-        rightFalcon1.setNeutralMode(NeutralMode.Brake);
-        rightFalcon2.setNeutralMode(NeutralMode.Brake);
-        leftFalcon1.setNeutralMode(NeutralMode.Brake);
-        leftFalcon2.setNeutralMode(NeutralMode.Brake);
+        // rightFalcon1.setNeutralMode(NeutralMode.Brake);
+        // rightFalcon2.setNeutralMode(NeutralMode.Brake);
+        // leftFalcon1.setNeutralMode(NeutralMode.Brake);
+        // leftFalcon2.setNeutralMode(NeutralMode.Brake);
 
-        leftFalcon1.setInverted(false);
-        leftFalcon1.setInverted(false);
-        rightFalcon1.setInverted(true);
-        rightFalcon2.setInverted(true);
+        // leftFalcon1.setInverted(false);
+        // leftFalcon1.setInverted(false);
+        // rightFalcon1.setInverted(true);
+        // rightFalcon2.setInverted(true);
         
         // victorTest = new Victor(0);
         // drive = new DifferentialDrive(victorTest,new Victor(1));

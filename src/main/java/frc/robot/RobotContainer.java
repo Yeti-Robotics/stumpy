@@ -85,8 +85,8 @@ public class RobotContainer
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
 
         //testing shooter
-        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 0.5));
-        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -0.5));
+        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 1.0));
+        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
 
     }
 
