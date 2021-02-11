@@ -41,6 +41,11 @@ public final class Constants
 
     public static final double DISTANCE_PER_PULSE =  (WHEEL_DIAMETER * Math.PI) / PULSE_PER_REV;
 
+    //limelight PID 
+    public static final double kTurnP = 1;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0;
+
     //pathweaver (all avalues are place holders)
     public static final double ksVolts = 0.687;
     public static final double kvVoltSecondsPerMeter = 0.0899;
@@ -64,4 +69,10 @@ public final class Constants
     //shooter motor constants
     public static final int RIGHT_SHOOTER_MOTOR = 5;
     public static final int LEFT_SHOOTER_MOTOR = 8;
+
+    //distance calc constants
+    public static final double KNOWN_DISTANCE = 161.3; //inches
+    public static final int PIXEL_WIDTH_KNOWN = 65; //pixels
+    public static final double KNOWN_TAPE_BOUND_WIDTH = 39.25; //inches
+    public static final double FOCAL_LENGTH = ( KNOWN_DISTANCE * PIXEL_WIDTH_KNOWN) / KNOWN_TAPE_BOUND_WIDTH;
 }
