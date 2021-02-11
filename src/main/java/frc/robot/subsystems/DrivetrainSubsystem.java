@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotController;
@@ -25,10 +27,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private WPI_TalonFX rightFalcon2;
     private WPI_TalonFX leftFalcon1;
     private WPI_TalonFX leftFalcon2;
-    private ADXRS450_Gyro gyro;
     // private WPI_TalonFX testFalcon;
     
-    private final DifferentialDriveOdometry m_odometry;
+    // private final DifferentialDriveOdometry m_odometry;
+    private final TalonSRX spareTalon;
+    private final PigeonIMU gyro;
 
     // private final Victor victorTest;
     // private final DifferentialDrive drive;
@@ -48,10 +51,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         drive = new DifferentialDrive(leftSide, rightSide);
 
         // drive.setSafetyEnabled(false);
-        
-        gyro = new ADXRS450_Gyro();
-        gyro.calibrate();
-        gyro.reset();
+        spareTalon = new TalonSRX(Constants.SPARE_TALON);
+        gyro = new PigeonIMU(spareTalon);
+        // gyro.calibrate();
+        // gyro.reset();
 
         // rightFalcon1.setNeutralMode(NeutralMode.Brake);
         // rightFalcon2.setNeutralMode(NeutralMode.Brake);
@@ -71,15 +74,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
 
-        m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+        // m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     }
 
     public void resetGyro() {
-        gyro.reset();
+        // gyro.reset();
     }
 
     public double getAngle(){
-        return gyro.getAngle();
+        double [] ypr = new double[3];
+        gyro.getYawPitchRoll(ypr);
+        return ypr[0];
     }
 
     // public void testPathWeaver(){
@@ -142,10 +147,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //    System.out.println("Average Distance: " + getAverageEncoder());
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
-    //System.out.println("gyro value mayb: " + gyro.getAngle());
+    System.out.println("gyro: " + getAngle());
 
         // Update the odometry in the periodic block
-        m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
+        // m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
     }
 
      /**
@@ -153,9 +158,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     *
     * @return The pose.
     */
-    public Pose2d getPose() {
-        return m_odometry.getPoseMeters();
-    }
+    // public Pose2d getPose() {
+    //     // return m_odometry.getPoseMeters();
+    // }
 
     /**
      * Returns the current wheel speeds of the robot.
@@ -175,7 +180,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      */
     public void resetOdometry(Pose2d pose) {
         resetEncoder();
-        m_odometry.resetPosition(pose, gyro.getRotation2d());
+        // m_odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
     /**
@@ -205,7 +210,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * Zeroes the heading of the robot.
      */
     public void zeroHeading() {
-        gyro.reset();
+        // gyro.reset();
     }
 
     /**
@@ -214,7 +219,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
-        return gyro.getRotation2d().getDegrees();
+        // return gyro.getRotation2d().getDegrees();
+        return 2.0;
     }
 
     /**
@@ -223,7 +229,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public double getTurnRate() {
-        return -gyro.getRate();
+        // return -gyro.getRate();
+        return 2.0;
     }
 
     public void arcadeDrive(double fwd, double rot) {

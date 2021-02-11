@@ -31,6 +31,8 @@ public final class Constants
     public static final int RIGHT_ENCODER_A = 2;
     public static final int RIGHT_ENCODER_B = 3;
 
+    public static final int SPARE_TALON = 0;
+
     public static final int DRIVER_STATION_JOY = 0;
 
     public static final double LOW_GEAR_RATIO = 15.0;

@@ -162,27 +162,28 @@ public class RobotContainer
         config
     );
 
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        exampleTrajectory,
-        drivetrainSubsystem::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                   Constants.kvVoltSecondsPerMeter,
-                                   Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
-        drivetrainSubsystem::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        drivetrainSubsystem::tankDriveVolts,
-        drivetrainSubsystem
-    );
+    // RamseteCommand ramseteCommand = new RamseteCommand(
+    //     exampleTrajectory,
+    //     drivetrainSubsystem::getPose,
+    //     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+    //     new SimpleMotorFeedforward(Constants.ksVolts,
+    //                                Constants.kvVoltSecondsPerMeter,
+    //                                Constants.kaVoltSecondsSquaredPerMeter),
+    //     Constants.kDriveKinematics,
+    //     drivetrainSubsystem::getWheelSpeeds,
+    //     new PIDController(Constants.kPDriveVel, 0, 0),
+    //     new PIDController(Constants.kPDriveVel, 0, 0),
+    //     // RamseteCommand passes volts to the callback
+    //     drivetrainSubsystem::tankDriveVolts,
+    //     drivetrainSubsystem
+    // );
 
     // Reset odometry to the starting pose of the trajectory.
     drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> drivetrainSubsystem.tankDriveVolts(0, 0));
+    // return ramseteCommand.andThen(() -> drivetrainSubsystem.tankDriveVolts(0, 0));
+    return null;
   }
 
   
