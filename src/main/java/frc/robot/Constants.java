@@ -31,7 +31,7 @@ public final class Constants
     public static final int RIGHT_ENCODER_A = 2;
     public static final int RIGHT_ENCODER_B = 3;
 
-    public static final int SPARE_TALON = 0;
+    public static final int SPARE_TALON = 9;
 
     public static final int DRIVER_STATION_JOY = 0;
 
@@ -77,4 +77,9 @@ public final class Constants
     public static final int PIXEL_WIDTH_KNOWN = 65; //pixels
     public static final double KNOWN_TAPE_BOUND_WIDTH = 39.25; //inches
     public static final double FOCAL_LENGTH = ( KNOWN_DISTANCE * PIXEL_WIDTH_KNOWN) / KNOWN_TAPE_BOUND_WIDTH;
+
+    //shooter constants
+    public static final int NECK_ROLLER_VICTOR = 4;
+    public static final int HOPPER_ROLLER_VICTOR = 2;
+    public static final int INTAKE_ROLLER_TALON = 4;
 }

@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,9 +23,16 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   private TalonFX rightShooter;
   private TalonFX leftShooter;
+  private VictorSPX neckRoller; //pinch roller
+  private VictorSPX hopperRoller;
+  private TalonSRX intakeRoller; // for testing purposes, would ideally be a new subsystem
+
   public ShooterSubsystem() {
     rightShooter = new TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
     leftShooter = new TalonFX(Constants.LEFT_SHOOTER_MOTOR);
+    neckRoller = new VictorSPX(Constants.NECK_ROLLER_VICTOR);
+    hopperRoller = new VictorSPX(Constants.HOPPER_ROLLER_VICTOR);
+    intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER_TALON);
 
     rightShooter.setNeutralMode(NeutralMode.Brake);
     leftShooter.setNeutralMode(NeutralMode.Brake);
@@ -37,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void spin(double power){
     leftShooter.set(ControlMode.PercentOutput, power);
     rightShooter.set(ControlMode.PercentOutput, power);
-}
+  }
 
 public void stopSpin(){
     leftShooter.set(ControlMode.PercentOutput, 0);
@@ -52,7 +61,7 @@ public void stopSpin(){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println("average shooter encoder: " + getAverageEncoder());
+    // System.out.println("average shooter encoder: " + getAverageEncoder());
   }
 
 }
