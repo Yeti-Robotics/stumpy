@@ -82,4 +82,5 @@ public final class Constants
     public static final int NECK_ROLLER_VICTOR = 4;
     public static final int HOPPER_ROLLER_VICTOR = 2;
     public static final int INTAKE_ROLLER_TALON = 4;
+    public static final int[] INTAKE_PISTONS_SOLENOID = {2,3};
 }

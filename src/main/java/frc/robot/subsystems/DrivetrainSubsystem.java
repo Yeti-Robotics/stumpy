@@ -53,7 +53,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // drive.setSafetyEnabled(false);
 
         // spareTalon = new TalonSRX(Constants.SPARE_TALON);
-        gyro = new PigeonIMU(ShooterSubsystem.intakeRoller);
+        gyro = new PigeonIMU(Constants.INTAKE_ROLLER_TALON);
         // gyro.calibrate();
         // gyro.reset();
 

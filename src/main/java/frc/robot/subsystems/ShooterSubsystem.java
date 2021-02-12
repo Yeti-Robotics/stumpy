@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,13 +27,22 @@ public class ShooterSubsystem extends SubsystemBase {
   private VictorSPX neckRoller; //pinch roller
   private VictorSPX hopperRoller;
   public static TalonSRX intakeRoller; // for testing purposes, would ideally be a new subsystem
+  private DoubleSolenoid pistons;
+
+  public enum IntakeStatus{
+    DOWN, UP
+}
+
+public static IntakeStatus intakeStatus;
 
   public ShooterSubsystem() {
+  
     rightShooter = new TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
     leftShooter = new TalonFX(Constants.LEFT_SHOOTER_MOTOR);
     neckRoller = new VictorSPX(Constants.NECK_ROLLER_VICTOR);
     hopperRoller = new VictorSPX(Constants.HOPPER_ROLLER_VICTOR);
     intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER_TALON);
+    pistons = new DoubleSolenoid(Constants.INTAKE_PISTONS_SOLENOID[0], Constants.INTAKE_PISTONS_SOLENOID[1]);
 
     rightShooter.setNeutralMode(NeutralMode.Brake);
     leftShooter.setNeutralMode(NeutralMode.Brake);
@@ -41,6 +51,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
     rightShooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
     leftShooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
+  }
+
+  public void extend(){
+    pistons.set(DoubleSolenoid.Value.kForward);
+    intakeStatus = IntakeStatus.DOWN;
+  }
+
+  public void retract(){
+    pistons.set(DoubleSolenoid.Value.kReverse);
+    intakeStatus = IntakeStatus.UP;
+  }
+
+  public static IntakeStatus getIntakePosition(){
+    return intakeStatus;
   }
 
   public void spin(double power){
@@ -52,7 +76,6 @@ public void stopSpin(){
     leftShooter.set(ControlMode.PercentOutput, 0);
     rightShooter.set(ControlMode.PercentOutput, 0);
 }
-
 
   public double getAverageEncoder() {
     return ((leftShooter.getSelectedSensorVelocity() + rightShooter.getSelectedSensorVelocity()) /2.0) * (4.0/3.0) * (600.0/4096.0); // gear ratio of 4:3
