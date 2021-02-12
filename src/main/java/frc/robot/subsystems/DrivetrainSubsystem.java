@@ -30,7 +30,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // private WPI_TalonFX testFalcon;
     
     // private final DifferentialDriveOdometry m_odometry;
-    private final TalonSRX spareTalon;
+    // private final TalonSRX spareTalon;
     private final PigeonIMU gyro;
 
     // private final Victor victorTest;
@@ -51,8 +51,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         drive = new DifferentialDrive(leftSide, rightSide);
 
         // drive.setSafetyEnabled(false);
-        spareTalon = new TalonSRX(Constants.SPARE_TALON);
-        gyro = new PigeonIMU(spareTalon);
+
+        // spareTalon = new TalonSRX(Constants.SPARE_TALON);
+        gyro = new PigeonIMU(ShooterSubsystem.intakeRoller);
         // gyro.calibrate();
         // gyro.reset();
 

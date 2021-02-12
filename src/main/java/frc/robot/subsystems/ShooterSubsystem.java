@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonFX leftShooter;
   private VictorSPX neckRoller; //pinch roller
   private VictorSPX hopperRoller;
-  private TalonSRX intakeRoller; // for testing purposes, would ideally be a new subsystem
+  public static TalonSRX intakeRoller; // for testing purposes, would ideally be a new subsystem
 
   public ShooterSubsystem() {
     rightShooter = new TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
