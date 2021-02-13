@@ -1,25 +1,20 @@
 package frc.robot.subsystems;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import jdk.jfr.Enabled;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -29,15 +24,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private WPI_TalonFX leftFalcon2;
     // private WPI_TalonFX testFalcon;
     
-    // private final DifferentialDriveOdometry m_odometry;
-    // private final TalonSRX spareTalon;
+     private final DifferentialDriveOdometry m_odometry;
+    private final WPI_TalonSRX gyroTalon;
     private final PigeonIMU gyro;
 
     // private final Victor victorTest;
     // private final DifferentialDrive drive;
     public final DifferentialDrive drive;
     public final SpeedControllerGroup rightSide;
-    public final SpeedControllerGroup leftSide; 
+    public final SpeedControllerGroup leftSide;
+
+    private Pose2d pose;
     
 
     public DrivetrainSubsystem() {
@@ -45,25 +42,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightFalcon2 = new WPI_TalonFX(Constants.RIGHT_FALCON_TWO);
         leftFalcon1 = new WPI_TalonFX(Constants.LEFT_FALCON_ONE);
         leftFalcon2 = new WPI_TalonFX(Constants.LEFT_FALCON_TWO);
-        // testFalcon = new WPI_TalonFX(7);
         rightSide = new SpeedControllerGroup(rightFalcon1, rightFalcon2);
         leftSide = new SpeedControllerGroup(leftFalcon1, leftFalcon2);
         drive = new DifferentialDrive(leftSide, rightSide);
 
         // drive.setSafetyEnabled(false);
 
-        // spareTalon = new TalonSRX(Constants.SPARE_TALON);
-        gyro = new PigeonIMU(Constants.INTAKE_ROLLER_TALON);
+        gyroTalon = new WPI_TalonSRX(Constants.GYRO_TALON);
+        gyro = new PigeonIMU(gyroTalon);
         // gyro.calibrate();
         // gyro.reset();
 
-        // rightFalcon1.setNeutralMode(NeutralMode.Brake);
-        // rightFalcon2.setNeutralMode(NeutralMode.Brake);
-        // leftFalcon1.setNeutralMode(NeutralMode.Brake);
-        // leftFalcon2.setNeutralMode(NeutralMode.Brake);
 
-        // leftFalcon1.setInverted(false);
-        // leftFalcon1.setInverted(false);
          rightFalcon1.setInverted(true);
          rightFalcon2.setInverted(true);
         
@@ -75,11 +65,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
 
-        // m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+         m_odometry = new DifferentialDriveOdometry(getHeading());
     }
 
     public void resetGyro() {
-        // gyro.reset();
+        gyro.setYaw(0);
+    }
+
+    public Rotation2d getHeading() {
+        double ypr[] = {0,0,0};
+        gyro.getYawPitchRoll(ypr);
+        return Rotation2d.fromDegrees(Math.IEEEremainder(ypr[0], 360.0d));
     }
 
     public double getAngle(){
@@ -151,7 +147,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     System.out.println("gyro: " + getAngle());
 
         // Update the odometry in the periodic block
-        // m_odometry.update(gyro.getRotation2d(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
+         pose = m_odometry.update(getHeading(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
     }
 
      /**
@@ -159,9 +155,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     *
     * @return The pose.
     */
-    // public Pose2d getPose() {
-    //     // return m_odometry.getPoseMeters();
-    // }
+     public Pose2d getPose() {
+//          return m_odometry.getPoseMeters();
+         return pose;
+     }
 
     /**
      * Returns the current wheel speeds of the robot.
@@ -174,14 +171,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return new DifferentialDriveWheelSpeeds(rightFalcon1.getSelectedSensorVelocity(), leftFalcon1.getSelectedSensorVelocity());
     }
 
-    /**
-     * Resets the odometry to the specified pose.
-     *
-     * @param pose The pose to which to set the odometry.
-     */
-    public void resetOdometry(Pose2d pose) {
+    public void resetOdometry() {
         resetEncoder();
-        // m_odometry.resetPosition(pose, gyro.getRotation2d());
+         m_odometry.resetPosition(new Pose2d(), getHeading());
     }
 
     /**
@@ -214,15 +206,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // gyro.reset();
     }
 
-    /**
-     * Returns the heading of the robot.
-     *
-     * @return the robot's heading in degrees, from -180 to 180
-     */
-    public double getHeading() {
-        // return gyro.getRotation2d().getDegrees();
-        return 2.0;
-    }
+
 
     /**
      * Returns the turn rate of the robot.

@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.util.List;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -147,6 +149,10 @@ public class RobotContainer
 
   public Command getAutonomousCommand() {
     System.out.println("inside of robot container wee woo");
+
+    drivetrainSubsystem.resetEncoder();
+    drivetrainSubsystem.resetGyro();
+    drivetrainSubsystem.resetOdometry();
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -154,7 +160,7 @@ public class RobotContainer
                                        Constants.kvVoltSecondsPerMeter,
                                        Constants.kaVoltSecondsSquaredPerMeter),
             Constants.kDriveKinematics,
-            10);
+            10.5);
 
     // Create config for trajectory
     TrajectoryConfig config =
@@ -171,8 +177,8 @@ public class RobotContainer
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-            new Translation2d(1, 1),
-            new Translation2d(2, -1)
+//            new Translation2d(1, 1),
+            new Translation2d(2, /*-1*/0)
         ),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
@@ -180,28 +186,56 @@ public class RobotContainer
         config
     );
 
-    // RamseteCommand ramseteCommand = new RamseteCommand(
-    //     exampleTrajectory,
-    //     drivetrainSubsystem::getPose,
-    //     new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-    //     new SimpleMotorFeedforward(Constants.ksVolts,
-    //                                Constants.kvVoltSecondsPerMeter,
-    //                                Constants.kaVoltSecondsSquaredPerMeter),
-    //     Constants.kDriveKinematics,
-    //     drivetrainSubsystem::getWheelSpeeds,
-    //     new PIDController(Constants.kPDriveVel, 0, 0),
-    //     new PIDController(Constants.kPDriveVel, 0, 0),
-    //     // RamseteCommand passes volts to the callback
-    //     drivetrainSubsystem::tankDriveVolts,
-    //     drivetrainSubsystem
-    // );
+      RamseteController disabledRamsete = new RamseteController() {
+          @Override
+          public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+                                         double angularVelocityRefRadiansPerSecond) {
+              return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+          }
+      };
+
+      var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
+      var leftReference = table.getEntry("left_reference");
+      var leftMeasurement = table.getEntry("left_measurement");
+      var rightReference = table.getEntry("right_reference");
+      var rightMeasurement = table.getEntry("right_measurement");
+
+      PIDController leftController = new PIDController(0, 0, 0);
+      PIDController rightController = new PIDController(0, 0, 0);
+
+     RamseteCommand ramseteCommand = new RamseteCommand(
+         exampleTrajectory,
+         drivetrainSubsystem::getPose,
+//             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+             disabledRamsete,
+         new SimpleMotorFeedforward(Constants.ksVolts,
+                                    Constants.kvVoltSecondsPerMeter,
+                                    Constants.kaVoltSecondsSquaredPerMeter),
+         Constants.kDriveKinematics,
+         drivetrainSubsystem::getWheelSpeeds,
+//         new PIDController(Constants.kPDriveVel, 0, 0),
+//         new PIDController(Constants.kPDriveVel, 0, 0),
+         leftController,
+         rightController,
+         // RamseteCommand passes volts to the callback
+//         drivetrainSubsystem::tankDriveVolts,
+         (leftVolts, rightVolts) -> {
+             drivetrainSubsystem.tankDriveVolts(leftVolts, rightVolts);
+
+             leftMeasurement.setNumber(drivetrainSubsystem.getWheelSpeeds().leftMetersPerSecond);
+             leftReference.setNumber(leftController.getSetpoint());
+
+             rightMeasurement.setNumber(drivetrainSubsystem.getWheelSpeeds().rightMetersPerSecond);
+             rightReference.setNumber(rightController.getSetpoint());
+         },
+         drivetrainSubsystem
+     );
 
     // Reset odometry to the starting pose of the trajectory.
-    drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+    drivetrainSubsystem.resetOdometry();
 
     // Run path following command, then stop at the end.
-    // return ramseteCommand.andThen(() -> drivetrainSubsystem.tankDriveVolts(0, 0));
-    return null;
+     return ramseteCommand.andThen(() -> drivetrainSubsystem.tankDriveVolts(0, 0));
   }
 
   

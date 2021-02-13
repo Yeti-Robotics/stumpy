@@ -31,7 +31,7 @@ public final class Constants
     public static final int RIGHT_ENCODER_A = 2;
     public static final int RIGHT_ENCODER_B = 3;
 
-    public static final int SPARE_TALON = 9;
+    public static final int GYRO_TALON = 8;
 
     public static final int DRIVER_STATION_JOY = 0;
 
@@ -48,22 +48,23 @@ public final class Constants
     public static final double kTurnI = 0;
     public static final double kTurnD = 0;
 
-    //pathweaver (all avalues are place holders)
-    public static final double ksVolts = 0.687;
-    public static final double kvVoltSecondsPerMeter = 0.0899;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.00506;
+    //trajectory tutorial values
+    public static final double ksVolts = 0.717;
+    public static final double kvVoltSecondsPerMeter = 3.43;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.27;
 
-    public static final double kTrackwidthMeters = 2.2979521807580054;
+    public static final double kTrackwidthMeters = 2.2677916208956517;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+    public static final double kPDriveVel = 1.88;
 
     // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
-    // tunneee
-    public static final double kPDriveVel = 1.19e-34;
+
 
     //shifter
     public static final int[] SHIFTER_SOLENOID = {0,1};
