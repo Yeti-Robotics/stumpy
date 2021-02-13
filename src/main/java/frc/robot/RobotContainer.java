@@ -27,16 +27,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.hopper.HopperInCommand;
+import frc.robot.commands.hopper.HopperOutCommand;
+import frc.robot.commands.intake.IntakeInCommand;
+import frc.robot.commands.intake.IntakeOutCommand;
+import frc.robot.commands.neck.NeckInCommand;
+import frc.robot.commands.neck.NeckOutCommand;
 import frc.robot.commands.shooting.TestShootingCommand;
-import frc.robot.commands.ToggleIntakeCommand;
+import frc.robot.commands.intake.ToggleIntakeCommand;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
 import frc.robot.commands.drivetrain.PathWeaverTest;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
 import frc.robot.commands.drivetrain.SlalomTestCommandGroup;
 import frc.robot.commands.shifting.ToggleShiftingCommand;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ShiftGearsSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,6 +55,9 @@ public class RobotContainer
     public DrivetrainSubsystem drivetrainSubsystem;
     public ShiftGearsSubsystem shiftGearsSubsystem;
     public ShooterSubsystem shooterSubsystem;
+    public IntakeSubsystem intakeSubsystem;
+    public HopperSubsystem hopperSubsystem;
+    public NeckSubsystem neckSubsystem;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -62,6 +69,9 @@ public class RobotContainer
         drivetrainSubsystem = new DrivetrainSubsystem();
         shiftGearsSubsystem = new ShiftGearsSubsystem();
         shooterSubsystem = new ShooterSubsystem();
+        intakeSubsystem = new IntakeSubsystem();
+        hopperSubsystem = new HopperSubsystem();
+        neckSubsystem = new NeckSubsystem();
 
         drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
 
@@ -77,19 +87,24 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        setJoystickButtonWhenPressed(driverStationJoy, 1, new SlalomTestCommandGroup(drivetrainSubsystem));
-        setJoystickButtonWhenPressed(driverStationJoy, 5, new ResetEncodersCommand(drivetrainSubsystem));
-        setJoystickButtonWhenPressed(driverStationJoy, 2, new PathWeaverTest(drivetrainSubsystem));
-
-        setJoystickButtonWhenPressed(driverStationJoy, 7, new DriveForDistanceCommand(drivetrainSubsystem, 36, 1, 1));
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
 
-        //testing shooter
-        setJoystickButtonWhileHeld(driverStationJoy, 8, new TestShootingCommand(shooterSubsystem, 1.0));
+        //full shooter system test
+        setJoystickButtonWhenPressed(driverStationJoy, 5, new ToggleIntakeCommand(intakeSubsystem));
+
+        setJoystickButtonWhileHeld(driverStationJoy, 1, new IntakeInCommand(intakeSubsystem));
+        setJoystickButtonWhileHeld(driverStationJoy, 6, new IntakeOutCommand(intakeSubsystem));
+
+        setJoystickButtonWhileHeld(driverStationJoy, 2, new HopperInCommand(hopperSubsystem));
+        setJoystickButtonWhileHeld(driverStationJoy, 7, new HopperOutCommand(hopperSubsystem));
+
+        setJoystickButtonWhileHeld(driverStationJoy, 3, new NeckInCommand(neckSubsystem));
+        setJoystickButtonWhileHeld(driverStationJoy, 8, new NeckOutCommand(neckSubsystem));
+
+        setJoystickButtonWhileHeld(driverStationJoy, 4, new TestShootingCommand(shooterSubsystem, 1.0));
         setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
 
-        setJoystickButtonWhenPressed(driverStationJoy, 3, new ToggleIntakeCommand(shooterSubsystem));
 
     }
 

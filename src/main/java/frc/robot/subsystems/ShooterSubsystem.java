@@ -24,26 +24,12 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   private TalonFX rightShooter;
   private TalonFX leftShooter;
-  private VictorSPX neckRoller; //pinch roller
-  private VictorSPX hopperRoller;
-  public static TalonSRX intakeRoller; // for testing purposes, would ideally be a new subsystem
-  private DoubleSolenoid pistons;
-
-  public enum IntakeStatus{
-    DOWN, UP
-}
-
-public static IntakeStatus intakeStatus;
-
+  
   public ShooterSubsystem() {
   
     rightShooter = new TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
     leftShooter = new TalonFX(Constants.LEFT_SHOOTER_MOTOR);
-    neckRoller = new VictorSPX(Constants.NECK_ROLLER_VICTOR);
-    hopperRoller = new VictorSPX(Constants.HOPPER_ROLLER_VICTOR);
-    intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER_TALON);
-    pistons = new DoubleSolenoid(Constants.INTAKE_PISTONS_SOLENOID[0], Constants.INTAKE_PISTONS_SOLENOID[1]);
-
+    
     rightShooter.setNeutralMode(NeutralMode.Brake);
     leftShooter.setNeutralMode(NeutralMode.Brake);
     rightShooter.setInverted(false);
@@ -53,20 +39,7 @@ public static IntakeStatus intakeStatus;
     leftShooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
   }
 
-  public void extend(){
-    pistons.set(DoubleSolenoid.Value.kForward);
-    intakeStatus = IntakeStatus.DOWN;
-  }
-
-  public void retract(){
-    pistons.set(DoubleSolenoid.Value.kReverse);
-    intakeStatus = IntakeStatus.UP;
-  }
-
-  public static IntakeStatus getIntakePosition(){
-    return intakeStatus;
-  }
-
+  
   public void spin(double power){
     leftShooter.set(ControlMode.PercentOutput, power);
     rightShooter.set(ControlMode.PercentOutput, power);

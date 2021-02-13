@@ -64,8 +64,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // leftFalcon1.setInverted(false);
         // leftFalcon1.setInverted(false);
-        // rightFalcon1.setInverted(true);
-        // rightFalcon2.setInverted(true);
+         rightFalcon1.setInverted(true);
+         rightFalcon2.setInverted(true);
         
         // victorTest = new Victor(0);
         // drive = new DifferentialDrive(victorTest,new Victor(1));
