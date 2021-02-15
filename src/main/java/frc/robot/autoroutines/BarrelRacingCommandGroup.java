@@ -1,0 +1,44 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.autoroutines;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.drivetrain.DriveForDistanceCommand;
+import frc.robot.commands.drivetrain.TurnForAngleCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
+
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class BarrelRacingCommandGroup extends SequentialCommandGroup {
+  /** Creates a new BarrelRacingCommandGroup. */
+  public BarrelRacingCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
+    addCommands(
+      new DriveForDistanceCommand(drivetrainSubsystem, 8.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, 45, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, 135, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, 90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, 90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 7.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -45, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -45, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 7.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new TurnForAngleCommand(drivetrainSubsystem, -45, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 20, power, power)
+    );
+  }
+}
