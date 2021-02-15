@@ -21,6 +21,10 @@ public class DriveForDistanceCommand extends CommandBase {
     @Override
     public void initialize() {
         drivetrainSubsystem.resetEncoder();
+        if(distanceGoal<0) {
+            leftPower = -Math.abs(leftPower);
+            rightPower = -Math.abs(rightPower);
+        }
     }
 
     @Override
