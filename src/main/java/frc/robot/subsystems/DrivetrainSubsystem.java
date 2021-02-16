@@ -145,7 +145,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
     System.out.println("gyro: " + getAngle());
-
+        drive.feed();
         // Update the odometry in the periodic block
          pose = m_odometry.update(getHeading(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
     }
@@ -166,7 +166,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @return The current wheel speeds.
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        System.out.println("getting da wheel speeds!");
+        // System.out.println("getting da wheel speeds!");
         //original method is getRate() from encoder class
         return new DifferentialDriveWheelSpeeds(rightFalcon1.getSelectedSensorVelocity(), leftFalcon1.getSelectedSensorVelocity());
     }
@@ -183,7 +183,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     * @param rightVolts the commanded right output
     */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        System.out.println("tank volt drives getting something");
+        // System.out.println("tank volt drives getting something");
         leftSide.setVoltage(leftVolts);
         rightSide.setVoltage(rightVolts);
         drive.feed();

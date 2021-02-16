@@ -37,6 +37,8 @@ import frc.robot.commands.neck.NeckInCommand;
 import frc.robot.commands.neck.NeckOutCommand;
 import frc.robot.commands.shooting.TestShootingCommand;
 import frc.robot.commands.intake.ToggleIntakeCommand;
+import frc.robot.commands.drivetrain.BarrelRacingCommandGroup;
+import frc.robot.commands.drivetrain.BounchPathCommandGroup;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
 import frc.robot.commands.drivetrain.PathWeaverTest;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
@@ -102,10 +104,11 @@ public class RobotContainer
         setJoystickButtonWhileHeld(driverStationJoy, 7, new HopperOutCommand(hopperSubsystem));
 
         setJoystickButtonWhileHeld(driverStationJoy, 3, new NeckInCommand(neckSubsystem));
-        setJoystickButtonWhileHeld(driverStationJoy, 8, new NeckOutCommand(neckSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 8, new NeckOutCommand(neckSubsystem));
 
         setJoystickButtonWhileHeld(driverStationJoy, 4, new TestShootingCommand(shooterSubsystem, 1.0));
-        setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
+        setJoystickButtonWhenPressed(driverStationJoy, 8, new BounchPathCommandGroup(drivetrainSubsystem, .5));
+        setJoystickButtonWhenPressed(driverStationJoy, 9, new BarrelRacingCommandGroup(drivetrainSubsystem, .5));
 
 
     }
@@ -177,8 +180,8 @@ public class RobotContainer
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-//            new Translation2d(1, 1),
-            new Translation2d(2, /*-1*/0)
+           new Translation2d(1, 1),
+            new Translation2d(2, -1)
         ),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
