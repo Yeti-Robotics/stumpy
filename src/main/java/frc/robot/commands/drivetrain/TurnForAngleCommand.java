@@ -34,7 +34,7 @@ public class TurnForAngleCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(gyroGoal) <= this.drivetrainSubsystem.getAngle();
+        return (gyroGoal >= this.drivetrainSubsystem.getAngle()-1 && gyroGoal <= this.drivetrainSubsystem.getAngle()+1);
     }
 
     @Override

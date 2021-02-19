@@ -12,7 +12,7 @@ public class DriveForDistanceCommand extends CommandBase {
 
     public DriveForDistanceCommand(DrivetrainSubsystem drivetrainSubsystem, double encoderGoal, double leftPower, double rightPower) {
         this.drivetrainSubsystem = drivetrainSubsystem;
-        this.distanceGoal = encoderGoal * 12;
+        this.distanceGoal = encoderGoal*12; // x12 for unit conversion for testing dead reckoning
         this.leftPower = leftPower;
         this.rightPower = rightPower;
         addRequirements(drivetrainSubsystem);

@@ -203,8 +203,8 @@ public class RobotContainer
       var rightReference = table.getEntry("right_reference");
       var rightMeasurement = table.getEntry("right_measurement");
 
-      PIDController leftController = new PIDController(0, 0, 0);
-      PIDController rightController = new PIDController(0, 0, 0);
+      PIDController leftController = new PIDController(Constants.kPDriveVel, 0, 0);
+      PIDController rightController = new PIDController(Constants.kPDriveVel, 0, 0);
 
      RamseteCommand ramseteCommand = new RamseteCommand(
          exampleTrajectory,
