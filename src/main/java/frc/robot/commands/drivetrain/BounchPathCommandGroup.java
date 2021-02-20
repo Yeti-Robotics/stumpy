@@ -17,10 +17,10 @@ public class BounchPathCommandGroup extends SequentialCommandGroup {
   public BounchPathCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
     addCommands(
       new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
-      new TurnToAnglePIDCommand(-90, drivetrainSubsystem)
-      // new DriveForDistanceCommand(drivetrainSubsystem, 5, power, power),
-      // new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power)
-      // new TurnForAngleCommand(drivetrainSubsystem, 135, power, power)
+      new TurnToAnglePIDCommand(90, drivetrainSubsystem), //ccw
+      new DriveForDistanceCommand(drivetrainSubsystem, 5, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power),
+      new TurnToAnglePIDCommand(-135, drivetrainSubsystem)
       // new DriveForDistanceCommand(drivetrainSubsystem, 8, power, power),
       // new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
       // new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),

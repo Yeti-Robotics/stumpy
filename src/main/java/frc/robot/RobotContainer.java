@@ -155,7 +155,8 @@ public class RobotContainer
 
     drivetrainSubsystem.resetEncoder();
     drivetrainSubsystem.resetGyro();
-    drivetrainSubsystem.resetOdometry();
+    // drivetrainSubsystem.resetOdometry(); //duplicate below
+
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -180,8 +181,8 @@ public class RobotContainer
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-           new Translation2d(1, 1),
-            new Translation2d(2, -1)
+           new Translation2d(0, 0),
+            new Translation2d(0, 0)
         ),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
@@ -203,14 +204,14 @@ public class RobotContainer
       var rightReference = table.getEntry("right_reference");
       var rightMeasurement = table.getEntry("right_measurement");
 
-      PIDController leftController = new PIDController(Constants.kPDriveVel, 0, 0);
-      PIDController rightController = new PIDController(Constants.kPDriveVel, 0, 0);
+      PIDController leftController = new PIDController(0, 0, 0);
+      PIDController rightController = new PIDController(0, 0, 0);
 
      RamseteCommand ramseteCommand = new RamseteCommand(
          exampleTrajectory,
          drivetrainSubsystem::getPose,
 //             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-             disabledRamsete,
+          disabledRamsete,
          new SimpleMotorFeedforward(Constants.ksVolts,
                                     Constants.kvVoltSecondsPerMeter,
                                     Constants.kaVoltSecondsSquaredPerMeter),

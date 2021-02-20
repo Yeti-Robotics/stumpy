@@ -22,7 +22,8 @@ public class TurnToAnglePIDCommand extends PIDCommand {
     
     super(
         // The controller that the command will use
-        new PIDController(1.1, 0, 0.2),
+        new PIDController(0.03, 0, 0.0025),
+        // new PIDController(.45*0.07, .54*0.07/1.06, 0.005),
         // This should return the measurement
         drivetrainSubsystem::getAngle,
         // This should return the setpoint (can also be a constant)
@@ -31,11 +32,11 @@ public class TurnToAnglePIDCommand extends PIDCommand {
         output -> {
         if(gyroGoal < 0){
           drivetrainSubsystem.drive(-output, output);
-          System.out.println("Motor output: " + output);
+          System.out.println("should b clockwise");
         }
         else {
-          drivetrainSubsystem.drive(output, -output);
-          System.out.println("Motor output: " + output);
+          drivetrainSubsystem.drive(-output, output);
+          System.out.println("should b ccw");
         }
       }
     );
@@ -45,7 +46,7 @@ public class TurnToAnglePIDCommand extends PIDCommand {
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.gyroGoal = gyroGoal;
     drivetrainSubsystem.resetGyro();
-    getController().setTolerance(3.0);
+    getController().setTolerance(1.0);
 
   }
 
