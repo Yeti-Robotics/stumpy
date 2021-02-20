@@ -12,16 +12,16 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BounchPathCommandGroup extends SequentialCommandGroup {
+public class BouncePathCommandGroup extends SequentialCommandGroup {
   /** Creates a new BounchPathCommandGroup. */
-  public BounchPathCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
+  public BouncePathCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
     addCommands(
-      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 2.5*12, power, power),
       new TurnToAnglePIDCommand(90, drivetrainSubsystem), //ccw
-      new DriveForDistanceCommand(drivetrainSubsystem, 5, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power),
-      new TurnToAnglePIDCommand(-135, drivetrainSubsystem)
-      // new DriveForDistanceCommand(drivetrainSubsystem, 8, power, power),
+      new DriveForDistanceCommand(drivetrainSubsystem, 5*12, power, power),
+      // new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power),
+      new TurnToAnglePIDCommand(30, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, -8*12, power, power)
       // new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
       // new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
       // new TurnForAngleCommand(drivetrainSubsystem, -45, power, power), //angle opp

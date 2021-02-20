@@ -59,5 +59,4 @@ public void stopSpin(){
     // This method will be called once per scheduler run
     // System.out.println("average shooter encoder: " + getAverageEncoder());
   }
-
 }

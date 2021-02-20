@@ -12,7 +12,7 @@ public class DriveForDistanceCommand extends CommandBase {
 
     public DriveForDistanceCommand(DrivetrainSubsystem drivetrainSubsystem, double encoderGoal, double leftPower, double rightPower) {
         this.drivetrainSubsystem = drivetrainSubsystem;
-        this.distanceGoal = encoderGoal*12; // x12 for unit conversion for testing dead reckoning
+        this.distanceGoal = encoderGoal;
         this.leftPower = leftPower;
         this.rightPower = rightPower;
         addRequirements(drivetrainSubsystem);
@@ -35,7 +35,7 @@ public class DriveForDistanceCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return distanceGoal <= this.drivetrainSubsystem.getAverageEncoder();
+        return Math.abs(this.drivetrainSubsystem.getAverageEncoder() - distanceGoal) <= 1;
     }
 
     @Override

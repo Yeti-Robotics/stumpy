@@ -46,7 +46,7 @@ public class TurnToAnglePIDCommand extends PIDCommand {
     this.drivetrainSubsystem = drivetrainSubsystem;
     this.gyroGoal = gyroGoal;
     drivetrainSubsystem.resetGyro();
-    getController().setTolerance(1.0);
+    getController().setTolerance(2.0);
 
   }
 
