@@ -1,6 +1,7 @@
 package frc.robot.commands.drivetrain;
 
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -9,19 +10,25 @@ public class SlalomTestCommandGroup extends SequentialCommandGroup {
         super();
         addCommands(
             // brute force of the slalom course
-                new DriveForDistanceCommand(drivetrainSubsystem, 8, 0.5, 0.5),
-                new TurnToAnglePIDCommand(45, drivetrainSubsystem),
-                new DriveForDistanceCommand(drivetrainSubsystem, 84, 0.5, 0.5),
-                new TurnToAnglePIDCommand(-45, drivetrainSubsystem),
-                new DriveForDistanceCommand(drivetrainSubsystem, 64, 0.5, 0.5),
-                new TurnToAnglePIDCommand(-45, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 12, 0.5, 0.5),
+                new TurnToAnglePIDCommand(47, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 56, 0.5, 0.5),
+                new TurnToAnglePIDCommand(-55, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 90, 0.5, 0.5),
+                new TurnToAnglePIDCommand(-60, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 38, 0.5, 0.5),
+
+                new TurnToAnglePIDCommand(80, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 28, 0.5, 0.5),
+                new TurnToAnglePIDCommand(69, drivetrainSubsystem),
                 new DriveForDistanceCommand(drivetrainSubsystem, 48, 0.5, 0.5),
                 new TurnToAnglePIDCommand(90, drivetrainSubsystem),
-                new DriveForDistanceCommand(drivetrainSubsystem, 24, 0.5, 0.5)
-
-                // new TurnToAnglePIDCommand(90, drivetrainSubsystem),
-                // new DriveForDistanceCommand(drivetrainSubsystem, 84, 0.5, 0.5),
-                // new TurnToAnglePIDCommand(90, drivetrainSubsystem)
+                new DriveForDistanceCommand(drivetrainSubsystem, 34, .5, .5),
+                new TurnToAnglePIDCommand(85, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 54, .5, .5 ),
+                new TurnToAnglePIDCommand(-65, drivetrainSubsystem),
+                new DriveForDistanceCommand(drivetrainSubsystem, 92, .5, .5),
+                new TurnToAnglePIDCommand(-45, drivetrainSubsystem)
         );
     }
 }
