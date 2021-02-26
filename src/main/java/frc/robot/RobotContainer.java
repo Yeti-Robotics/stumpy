@@ -40,6 +40,7 @@ import frc.robot.commands.intake.ToggleIntakeCommand;
 import frc.robot.commands.drivetrain.BarrelRacingCommandGroup;
 import frc.robot.commands.drivetrain.BouncePathCommandGroup;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
+import frc.robot.commands.drivetrain.DriveForDistancePIDCommand;
 import frc.robot.commands.drivetrain.PathWeaverTest;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
 import frc.robot.commands.drivetrain.SlalomTestCommandGroup;
@@ -109,8 +110,9 @@ public class RobotContainer
         // setJoystickButtonWhileHeld(driverStationJoy, 4, new TestShootingCommand(shooterSubsystem, 1.0));
         // setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
         setJoystickButtonWhenPressed(driverStationJoy, 8, new BouncePathCommandGroup(drivetrainSubsystem, .5));
-        setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomTestCommandGroup(drivetrainSubsystem));
-
+        //setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomTestCommandGroup(drivetrainSubsystem));
+        setJoystickButtonWhenPressed(driverStationJoy, 9, new DriveForDistancePIDCommand(drivetrainSubsystem, 60));
+    
 
     }
 

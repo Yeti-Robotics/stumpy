@@ -18,7 +18,7 @@ public class DriveForDistancePIDCommand extends PIDCommand {
   public DriveForDistancePIDCommand(DrivetrainSubsystem drivetrainSubsystem, double encoderGoal) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(0.3, 0, 0),
         // This should return the measurement
         drivetrainSubsystem::getAverageEncoder,
         // This should return the setpoint (can also be a constant)
