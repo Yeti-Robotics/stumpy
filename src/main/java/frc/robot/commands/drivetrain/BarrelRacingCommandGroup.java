@@ -14,7 +14,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class BarrelRacingCommandGroup extends SequentialCommandGroup {
   /** Creates a new BarrelRacingCommandGroup. */
-  public BarrelRacingCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
+  public BarrelRacingCommandGroup(DrivetrainSubsystem drivetrainSubsystem) {
     addCommands(
       new DriveForDistanceCommand(drivetrainSubsystem, 84, 0.5, 0.5),
       new TurnToAnglePIDCommand(-123.69, drivetrainSubsystem),
