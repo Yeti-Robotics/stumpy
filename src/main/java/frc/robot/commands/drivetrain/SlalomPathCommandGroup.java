@@ -26,7 +26,7 @@ public class SlalomPathCommandGroup extends SequentialCommandGroup {
       new DriveForDistanceCommand(drivetrainSubsystem, 84.852813 , 0.5, 0.5),
       new TurnToAnglePIDCommand(78.690067, drivetrainSubsystem),
       new DriveForDistanceCommand(drivetrainSubsystem, 54.0833, 0.5, 0.5),
-      new TurnToAnglePIDCommand(78.690067, drivetrainSubsystem),
+      new TurnToAnglePIDCommand(202.6198, drivetrainSubsystem),
       new DriveForDistanceCommand(drivetrainSubsystem, 54.0833, 0.5, 0.5),
       new TurnToAnglePIDCommand(45, drivetrainSubsystem),
       new DriveForDistanceCommand(drivetrainSubsystem, 84.852813, .5, .5),
