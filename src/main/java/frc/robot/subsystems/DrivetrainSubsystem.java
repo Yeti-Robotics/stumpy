@@ -127,7 +127,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return (rightFalcon1.getSelectedSensorPosition() * Constants.DISTANCE_PER_PULSE) / (ShiftGearsSubsystem.getShifterPosition() == ShiftGearsSubsystem.ShiftStatus.HIGH ? Constants.HIGH_GEAR_RATIO : Constants.LOW_GEAR_RATIO);
     }
 
+
     public double getAverageEncoder() {
+        System.out.println(getLeftEncoder());
         return (getLeftEncoder() + getRightEncoder()) / 2;
     }
 
@@ -148,7 +150,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //    System.out.println("Average Distance: " + getAverageEncoder());
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
-    System.out.println("gyro: " + getAngle());
+    //System.out.println("gyro: " + getAngle());
         drive.feed();
         // Update the odometry in the periodic block
          pose = m_odometry.update(getHeading(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());
