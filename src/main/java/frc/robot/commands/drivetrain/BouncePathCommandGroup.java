@@ -16,26 +16,25 @@ public class BouncePathCommandGroup extends SequentialCommandGroup {
   /** Creates a new BounchPathCommandGroup. */
   public BouncePathCommandGroup(DrivetrainSubsystem drivetrainSubsystem, double power) {
     addCommands(
-      new DriveForDistanceCommand(drivetrainSubsystem, 2.5*12, power, power),
-      new TurnToAnglePIDCommand(90, drivetrainSubsystem), //ccw
-      new DriveForDistanceCommand(drivetrainSubsystem, 5*12, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power),
-      new TurnToAnglePIDCommand(30, drivetrainSubsystem),
-      new DriveForDistanceCommand(drivetrainSubsystem, -8*12, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, 2.5, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, -45, power, power), //angle opp
-      new DriveForDistanceCommand(drivetrainSubsystem, 7.5, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, -7.5, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, 135, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, 4, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, -90, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, 4, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, -45, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, 7.5, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, -5, power, power),
-      new TurnForAngleCommand(drivetrainSubsystem, 90, power, power),
-      new DriveForDistanceCommand(drivetrainSubsystem, 5, power, power)
+      new DriveForDistanceCommand(drivetrainSubsystem, 30, 0.5, 0.5),
+      new TurnToAnglePIDCommand(-26.57, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 30, 0.5, 0.5),
+      new TurnToAnglePIDCommand(26.57, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 60, 0.5, 0.5),
+      new TurnToAnglePIDCommand(63.43, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem,60, 0.5, 0.5),
+      new TurnToAnglePIDCommand(-63.43, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem,30, 0.5, 0.5),
+      new TurnToAnglePIDCommand(-14.04, drivetrainSubsystem), 
+      new DriveForDistanceCommand(drivetrainSubsystem,30, 0.5, 0.5),
+      new TurnToAnglePIDCommand(14.04, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem,30, .5, .5),
+      new TurnToAnglePIDCommand(75.96, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem,30, .5, .5 ),
+      new TurnToAnglePIDCommand(-76.96, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem,30, .5, .5),
+      new TurnToAnglePIDCommand(-14.04, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 30, .5, .5)
     );
   }
 }
