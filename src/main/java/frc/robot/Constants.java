@@ -38,7 +38,7 @@ public final class Constants
     public static final double LOW_GEAR_RATIO = 15.0;
     public static final double HIGH_GEAR_RATIO = 5.13;
 
-    public static final int PULSE_PER_REV = 2048;
+    public static final int PULSE_PER_REV = 4096;
     public static final double WHEEL_DIAMETER = 4.0;
 
     public static final double DISTANCE_PER_PULSE =  (WHEEL_DIAMETER * Math.PI) / PULSE_PER_REV;

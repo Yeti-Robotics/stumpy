@@ -53,6 +53,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         gyro = new PigeonIMU(gyroTalon);
         // gyro.calibrate();
         // gyro.reset();
+        resetGyro();
 
 
          rightFalcon1.setInverted(true);
@@ -65,9 +66,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         leftFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
         rightFalcon1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,0);
+        resetEncoder();
 
         leftFalcon1.setNeutralMode(NeutralMode.Brake);
         rightFalcon1.setNeutralMode(NeutralMode.Brake);
+        leftFalcon2.setNeutralMode(NeutralMode.Brake);
+        rightFalcon2.setNeutralMode(NeutralMode.Brake);
 
          m_odometry = new DifferentialDriveOdometry(getHeading());
     }
@@ -145,12 +149,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //trajectory code gotten from "https://docs.wpilib.org/en/stable/docs/software/examples-tutorials/trajectory-tutorial/creating-drive-subsystem.html"
     public void periodic() {
-    //    System.out.println("Right EnDist: " + getRightEncoder());
-    //    System.out.println("Left EnDist: " + getLeftEncoder());
+    //    System.out.print("Right EnDist: " + getRightEncoder());
+    //    System.out.println(", Left EnDist: " + getLeftEncoder());
     //    System.out.println("Average Distance: " + getAverageEncoder());
     //    System.out.println("Shift Pos: " + ShiftGearsSubsystem.getShifterPosition());
     //    System.out.println("");
-    //System.out.println("gyro: " + getAngle());
+        System.out.println("gyro: " + getAngle());
         drive.feed();
         // Update the odometry in the periodic block
          pose = m_odometry.update(getHeading(), leftFalcon1.getSelectedSensorPosition(), rightFalcon1.getSelectedSensorPosition());

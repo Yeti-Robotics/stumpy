@@ -17,7 +17,7 @@ public class SlalomPathCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DriveForDistanceCommand(drivetrainSubsystem, 60, 0.5, 0.5),
+      new DriveForDistanceCommand(drivetrainSubsystem, 50, 0.5, 0.5),
       new TurnToAnglePIDCommand(45, drivetrainSubsystem),
       new DriveForDistanceCommand(drivetrainSubsystem, 51.96152 , 0.5, 0.5),
       new TurnToAnglePIDCommand(-45, drivetrainSubsystem),

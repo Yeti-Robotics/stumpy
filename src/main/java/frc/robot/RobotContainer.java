@@ -42,6 +42,7 @@ import frc.robot.commands.drivetrain.BouncePathCommandGroup;
 import frc.robot.commands.drivetrain.DriveForDistanceCommand;
 import frc.robot.commands.drivetrain.DriveForDistancePIDCommand;
 import frc.robot.commands.drivetrain.PathWeaverTest;
+import frc.robot.commands.drivetrain.*;
 import frc.robot.commands.drivetrain.ResetEncodersCommand;
 import frc.robot.commands.drivetrain.SlalomTestCommandGroup;
 import frc.robot.commands.shifting.ToggleShiftingCommand;
@@ -78,7 +79,9 @@ public class RobotContainer
         hopperSubsystem = new HopperSubsystem();
         neckSubsystem = new NeckSubsystem();
 
-        drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
+
+        //driving lol
+         drivetrainSubsystem.setDefaultCommand(new RunCommand(() -> drivetrainSubsystem.drive(getLeftY(), getRightY()), drivetrainSubsystem));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -96,22 +99,22 @@ public class RobotContainer
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
 
         //full shooter system test
-        setJoystickButtonWhenPressed(driverStationJoy, 5, new ToggleIntakeCommand(intakeSubsystem));
+        // setJoystickButtonWhenPressed(driverStationJoy, 5, new ToggleIntakeCommand(intakeSubsystem));
 
-        setJoystickButtonWhileHeld(driverStationJoy, 1, new IntakeInCommand(intakeSubsystem));
-        setJoystickButtonWhileHeld(driverStationJoy, 6, new IntakeOutCommand(intakeSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 1, new IntakeInCommand(intakeSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 6, new IntakeOutCommand(intakeSubsystem));
 
-        setJoystickButtonWhileHeld(driverStationJoy, 2, new HopperInCommand(hopperSubsystem));
-        setJoystickButtonWhileHeld(driverStationJoy, 7, new HopperOutCommand(hopperSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 2, new HopperInCommand(hopperSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 7, new HopperOutCommand(hopperSubsystem));
 
-        setJoystickButtonWhileHeld(driverStationJoy, 3, new NeckInCommand(neckSubsystem));
+        // setJoystickButtonWhileHeld(driverStationJoy, 3, new NeckInCommand(neckSubsystem));
         // setJoystickButtonWhileHeld(driverStationJoy, 8, new NeckOutCommand(neckSubsystem));
 
         // setJoystickButtonWhileHeld(driverStationJoy, 4, new TestShootingCommand(shooterSubsystem, 1.0));
         // setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
-        setJoystickButtonWhenPressed(driverStationJoy, 8, new BouncePathCommandGroup(drivetrainSubsystem, .5));
-        //setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomTestCommandGroup(drivetrainSubsystem));
-        setJoystickButtonWhenPressed(driverStationJoy, 9, new DriveForDistancePIDCommand(drivetrainSubsystem, 60));
+        setJoystickButtonWhenPressed(driverStationJoy, 8, new BarrelRacingCommandGroup(drivetrainSubsystem));
+        setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomPathCommandGroup(drivetrainSubsystem));
+        // setJoystickButtonWhenPressed(driverStationJoy, 9, new DriveForDistancePIDCommand(drivetrainSubsystem, 60));
     
 
     }
