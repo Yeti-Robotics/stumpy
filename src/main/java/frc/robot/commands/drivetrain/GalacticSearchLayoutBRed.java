@@ -17,19 +17,19 @@ import frc.robot.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GalacticSearchLayoutBRed extends SequentialCommandGroup {
 /** Creates a new GalacticSearchLayoutBRed. */
-  public GalacticSearchLayoutBRed(DrivetrainSubsystem drivetrainSubsystem IntakeSubsystem intakeSubsystem) {
+  public GalacticSearchLayoutBRed(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem) {
     addCommands(
-      new ToggleIntakeCommand(intakeSubsystem);
-      new DriveForDistanceCommand(drivetrainSubsystem, 60, 0.7, 0.7);
-      new IntakeInCommand(intakeSubsystem).withTimeout(0.4);
-      new TurnToAnglePIDCommand(56.31, drivetrainSubsystem);
-      new DriveForDistanceCommand(drivetrainSubsystem, 108.166, 0.7, 0.7);
-      new IntakeInCommand(intakeSubsystem).withTimeout(0.4);
-      new TurnToAnglePIDCommand(-112.62, drivetrainSubsystem);
-      new DriveForDistanceCommand(drivetrainSubsystem, 108.166, 0.7, 0.7);
-      new IntakeInCommand(intakeSubsystem).withTimeout(0.4);
-      new TurnToAnglePIDCommand(56.31, drivetrainSubsystem);
-      new DriveForDistanceCommand(drivetrainSubsystem, 120, 1, 1);
+      new ToggleIntakeCommand(intakeSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 60, 0.7, 0.7),
+      new IntakeInCommand(intakeSubsystem).withTimeout(0.4),
+      new TurnToAnglePIDCommand(56.31, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 108.166, 0.7, 0.7),
+      new IntakeInCommand(intakeSubsystem).withTimeout(0.4),
+      new TurnToAnglePIDCommand(-112.62, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 108.166, 0.7, 0.7),
+      new IntakeInCommand(intakeSubsystem).withTimeout(0.4),
+      new TurnToAnglePIDCommand(56.31, drivetrainSubsystem),
+      new DriveForDistanceCommand(drivetrainSubsystem, 120, 1, 1)
     );
     
   }
