@@ -17,7 +17,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
   public class SearchPathBBlueCommandGroup extends SequentialCommandGroup {
   /** Creates a new SearchPathBBlueCommandGroup. */
-  public SearchPathBBlueCommandGroup(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, HopperSubsystem hopper subsystem) {
+  public SearchPathBBlueCommandGroup(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, HopperSubsystem hopperSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -27,24 +27,24 @@ import frc.robot.subsystems.IntakeSubsystem;
     new ParallelCommandGroup(
       new IntakeInCommand(intakeSubsystem),
       new HopperInCommand(hopperSubsystem)
-    ),
-    new TurnToAnglePIDCommand(123.69006753, drivetrainSubsystem,
+      ),
+    new TurnToAnglePIDCommand(123.69006753, drivetrainSubsystem),
     new DriveForDistanceCommand(drivetrainSubsystem, 84.85281374, 0.5, 0.5),
       new ParallelCommandGroup(
       new IntakeInCommand(intakeSubsystem),
       new HopperInCommand(hopperSubsystem)
-    ),
+      ),
     new TurnToAnglePIDCommand(-90, drivetrainSubsystem),
     new DriveForDistanceCommand(drivetrainSubsystem, 84.85281374, 0.5, 0.5),
     new ParallelCommandGroup(
       new IntakeInCommand(intakeSubsystem),
       new HopperInCommand(hopperSubsystem)
-    ),
+      ),
     new TurnToAnglePIDCommand(45, drivetrainSubsystem),
     new DriveForDistanceCommand(drivetrainSubsystem, 30, 0.5, 0.5),
     new ParallelCommandGroup(
       new IntakeInCommand(intakeSubsystem),
-      new HopperInCommand(hopperSubsystem),
+      new HopperInCommand(hopperSubsystem)));
 
       
   }
