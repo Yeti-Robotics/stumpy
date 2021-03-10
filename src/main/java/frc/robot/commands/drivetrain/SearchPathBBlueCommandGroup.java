@@ -15,7 +15,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-  public class SearchPathBBlueCommandGroup extends SequentialCommandGroup {
+  public class SearchPathBBlueCommandGroup extends SequentialCommandGroup
   /** Creates a new SearchPathBBlueCommandGroup. */
   public SearchPathBBlueCommandGroup(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, HopperSubsystem hopper subsystem) {
     // Add your commands in the addCommands() call, e.g.
@@ -26,7 +26,7 @@ import frc.robot.subsystems.IntakeSubsystem;
     new DriveForDistanceCommand(drivetrainSubsystem, 152.9705854, 0.5, 0.5),
     new ParallelCommandGroup(
       new IntakeInCommand(intakeSubsystem),
-      new HopperInCommand(hopperSubsystem)
+      new HopperInCommand(hopperSubsystem),
     ),
     new TurnToAnglePIDCommand(123.69006753, drivetrainSubsystem,
     new DriveForDistanceCommand(drivetrainSubsystem, 84.85281374, 0.5, 0.5),
@@ -46,6 +46,6 @@ import frc.robot.subsystems.IntakeSubsystem;
       new IntakeInCommand(intakeSubsystem),
       new HopperInCommand(hopperSubsystem),
 
-      
+    )
   }
 }
