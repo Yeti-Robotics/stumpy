@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class Constants 
 {
     //Drivetrain constants
-    public static final int RIGHT_FALCON_ONE = 1;
-    public static final int RIGHT_FALCON_TWO = 2;
-    public static final int LEFT_FALCON_ONE = 3;
-    public static final int LEFT_FALCON_TWO = 4;
+    public static final int RIGHT_FALCON_ONE = 2;
+    public static final int RIGHT_FALCON_TWO = 1;
+    public static final int RIGHT_FALCON_THREE = 0;
+    public static final int LEFT_FALCON_ONE = 13;
+    public static final int LEFT_FALCON_TWO = 14;
+    public static final int LEFT_FALCON_THREE = 15;
 
     public static final int LEFT_ENCODER_A = 0;
     public static final int LEFT_ENCODER_B = 1;

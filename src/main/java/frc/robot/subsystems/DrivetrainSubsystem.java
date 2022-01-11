@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -21,8 +22,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private WPI_TalonFX rightFalcon1;
     private WPI_TalonFX rightFalcon2;
+    private VictorSPX rightFalcon3;
     private WPI_TalonFX leftFalcon1;
-    private WPI_TalonFX leftFalcon2;
+    private VictorSPX leftFalcon2;
+    private VictorSPX leftFalcon3;
     // private WPI_TalonFX testFalcon;
     
      private final DifferentialDriveOdometry m_odometry;
@@ -32,20 +35,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // private final Victor victorTest;
     // private final DifferentialDrive drive;
     public final DifferentialDrive drive;
-    public final SpeedControllerGroup rightSide;
-    public final SpeedControllerGroup leftSide;
 
     private Pose2d pose;
     
+    private DriveMode driveMode;
+
+    public enum DriveMode {
+        TANK, CHEEZY, ARCADE;
+    }
 
     public DrivetrainSubsystem() {
         rightFalcon1 = new WPI_TalonFX(Constants.RIGHT_FALCON_ONE);
         rightFalcon2 = new WPI_TalonFX(Constants.RIGHT_FALCON_TWO);
+        rightFalcon3 = new VictorSPX(Constants.RIGHT_FALCON_THREE);
         leftFalcon1 = new WPI_TalonFX(Constants.LEFT_FALCON_ONE);
-        leftFalcon2 = new WPI_TalonFX(Constants.LEFT_FALCON_TWO);
-        rightSide = new SpeedControllerGroup(rightFalcon1, rightFalcon2);
-        leftSide = new SpeedControllerGroup(leftFalcon1, leftFalcon2);
-        drive = new DifferentialDrive(leftSide, rightSide);
+        leftFalcon2 = new VictorSPX(Constants.LEFT_FALCON_TWO);
+        leftFalcon3 = new VictorSPX(Constants.LEFT_FALCON_THREE);
+        rightFalcon2.follow(rightFalcon1);
+        rightFalcon3.follow(rightFalcon1);
+        leftFalcon2.follow(leftFalcon1);
+        leftFalcon3.follow(leftFalcon1);
+        drive = new DifferentialDrive(leftFalcon1, rightFalcon1);
 
         // drive.setSafetyEnabled(false);
 
@@ -56,8 +66,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         resetGyro();
 
 
-         rightFalcon1.setInverted(true);
-         rightFalcon2.setInverted(true);
+        rightFalcon1.setInverted(true);
+        rightFalcon2.setInverted(true);
+        rightFalcon3.setInverted(true);
         
         // victorTest = new Victor(0);
         // drive = new DifferentialDrive(victorTest,new Victor(1));
@@ -72,8 +83,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightFalcon1.setNeutralMode(NeutralMode.Brake);
         leftFalcon2.setNeutralMode(NeutralMode.Brake);
         rightFalcon2.setNeutralMode(NeutralMode.Brake);
+        leftFalcon3.setNeutralMode(NeutralMode.Brake);
+        rightFalcon3.setNeutralMode(NeutralMode.Brake);
 
          m_odometry = new DifferentialDriveOdometry(getHeading());
+
+         this.driveMode = DriveMode.CHEEZY;
     }
 
     public void resetGyro() {
@@ -92,6 +107,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return ypr[0];
     }
 
+    public DriveMode getDriveMode() {
+        return this.driveMode;
+    }
+
     // public void testPathWeaver(){
     //     String trajectoryJSON = "paths/Test.wpilib.json";
     //     Trajectory trajectory = new Trajectory(null);
@@ -105,22 +124,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //     }
     // }
 
-    public void drive(double leftpower, double rightpower){
-        rightFalcon1.set(ControlMode.PercentOutput, rightpower);
-        rightFalcon2.set(ControlMode.PercentOutput, rightpower);
-        leftFalcon1.set(ControlMode.PercentOutput, leftpower);
-        leftFalcon2.set(ControlMode.PercentOutput, leftpower);
+    public void drive(double leftPower, double rightPower){
+        rightFalcon1.set(ControlMode.PercentOutput, rightPower);
+        rightFalcon2.set(ControlMode.PercentOutput, rightPower);
+        rightFalcon3.set(ControlMode.PercentOutput, rightPower);
+        leftFalcon1.set(ControlMode.PercentOutput, leftPower);
+        leftFalcon2.set(ControlMode.PercentOutput, leftPower);
+        leftFalcon3.set(ControlMode.PercentOutput, leftPower);
     }
 
     public void stopDrive(){
         rightFalcon1.set(ControlMode.PercentOutput, 0);
-        rightFalcon2.set(ControlMode.PercentOutput, 0);
         leftFalcon1.set(ControlMode.PercentOutput, 0);
-        leftFalcon2.set(ControlMode.PercentOutput, 0);
     }
 
-    public void tankDrive(double leftpower, double rightpower) {
-        drive.tankDrive(leftpower, rightpower);
+    public void tankDrive(double leftPower, double rightPower) {
+        drive.tankDrive(leftPower, rightPower);
+    }
+
+    public void cheezyDrive(double straight, double turn) {
+        drive.curvatureDrive(straight, -turn, false);
       }
 
     public double getLeftEncoder() {
@@ -192,12 +215,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     * @param leftVolts  the commanded left output
     * @param rightVolts the commanded right output
     */
-    public void tankDriveVolts(double leftVolts, double rightVolts) {
-        // System.out.println("tank volt drives getting something");
-        leftSide.setVoltage(leftVolts);
-        rightSide.setVoltage(rightVolts);
-        drive.feed();
-    }
+    // public void tankDriveVolts(double leftVolts, double rightVolts) {
+    //     // System.out.println("tank volt drives getting something");
+    //     leftSide.setVoltage(leftVolts);
+    //     rightSide.setVoltage(rightVolts);
+    //     drive.feed();
+    // }
 
 
      /**
