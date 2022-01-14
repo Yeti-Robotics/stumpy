@@ -108,7 +108,8 @@ public class RobotContainer
     {
         //Shift Gears
         setJoystickButtonWhenPressed(driverStationJoy, 11, new ToggleShiftingCommand(shiftGearsSubsystem));
-
+        
+        setJoystickButtonWhileHeld(driverStationJoy, 1, new TestShootingCommand(shooterSubsystem, 0.3) );
         //full shooter system test
         // setJoystickButtonWhenPressed(driverStationJoy, 5, new ToggleIntakeCommand(intakeSubsystem));
 
@@ -123,8 +124,8 @@ public class RobotContainer
 
         // setJoystickButtonWhileHeld(driverStationJoy, 4, new TestShootingCommand(shooterSubsystem, 1.0));
         // setJoystickButtonWhileHeld(driverStationJoy, 9, new TestShootingCommand(shooterSubsystem, -1.0));
-        setJoystickButtonWhenPressed(driverStationJoy, 8, new BarrelRacingCommandGroup(drivetrainSubsystem));
-        setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomPathCommandGroup(drivetrainSubsystem));
+        //setJoystickButtonWhenPressed(driverStationJoy, 8, new BarrelRacingCommandGroup(drivetrainSubsystem));
+        //setJoystickButtonWhenPressed(driverStationJoy, 9, new SlalomPathCommandGroup(drivetrainSubsystem));
         // setJoystickButtonWhenPressed(driverStationJoy, 9, new DriveForDistancePIDCommand(drivetrainSubsystem, 60));
     
 
@@ -132,7 +133,7 @@ public class RobotContainer
 
     public double getLeftY() {
         if(driverStationJoy.getRawAxis(1) >= .1 || driverStationJoy.getRawAxis(1) <= -.1){
-            return driverStationJoy.getRawAxis(1);
+            return driverStationJoy.getRawAxis(0);
         }else{
             return 0;
         }
@@ -147,7 +148,7 @@ public class RobotContainer
   // Gets the Y direction of the right drive joystick
   public double getRightY() {
     if(driverStationJoy.getRawAxis(3) >= .1 || driverStationJoy.getRawAxis(3) <= -.1){
-      return driverStationJoy.getRawAxis(3);
+      return driverStationJoy.getRawAxis(2);
     }else{
       return 0;
     }

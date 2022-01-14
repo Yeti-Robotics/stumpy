@@ -21,12 +21,13 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class Constants 
 {
     //Drivetrain constants
-    public static final int RIGHT_FALCON_ONE = 2;
-    public static final int RIGHT_FALCON_TWO = 1;
-    public static final int RIGHT_FALCON_THREE = 0;
+    public static final int RIGHT_FALCON_ONE = 3;
+    public static final int RIGHT_FALCON_TWO = 8;
+    
+    public static final int RIGHT_FALCON_THREE = 6;
     public static final int LEFT_FALCON_ONE = 13;
-    public static final int LEFT_FALCON_TWO = 14;
-    public static final int LEFT_FALCON_THREE = 15;
+    public static final int LEFT_FALCON_TWO = 1;
+    public static final int LEFT_FALCON_THREE = 7;
 
     public static final int LEFT_ENCODER_A = 0;
     public static final int LEFT_ENCODER_B = 1;
@@ -72,8 +73,8 @@ public final class Constants
     public static final int[] SHIFTER_SOLENOID = {0,1};
 
     //shooter motor constants
-    public static final int RIGHT_SHOOTER_MOTOR = 3;
-    public static final int LEFT_SHOOTER_MOTOR = 12;
+    public static final int RIGHT_SHOOTER_MOTOR = 10;
+    public static final int LEFT_SHOOTER_MOTOR = 11;
 
     //distance calc constants
     public static final double KNOWN_DISTANCE = 161.3; //inches
@@ -82,9 +83,9 @@ public final class Constants
     public static final double FOCAL_LENGTH = ( KNOWN_DISTANCE * PIXEL_WIDTH_KNOWN) / KNOWN_TAPE_BOUND_WIDTH;
 
     //shooter constants
-    public static final int NECK_ROLLER_VICTOR = 2;
-    public static final int HOPPER_ROLLER_VICTOR = 1;
-    public static final int INTAKE_ROLLER_TALON = 7;
+    public static final int NECK_ROLLER_VICTOR = 99;
+    public static final int HOPPER_ROLLER_VICTOR = 98;
+    public static final int INTAKE_ROLLER_TALON = 97;
     public static final int[] INTAKE_PISTONS_SOLENOID = {2,3};
 
     public static final double NECK_IN_SPEED = .75;
