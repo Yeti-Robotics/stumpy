@@ -31,8 +31,8 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooter = new WPI_TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
     leftShooter = new WPI_TalonFX(Constants.LEFT_SHOOTER_MOTOR);
     
-    rightShooter.setNeutralMode(NeutralMode.Brake);
-    leftShooter.setNeutralMode(NeutralMode.Brake);
+    rightShooter.setNeutralMode(NeutralMode.Coast);
+    leftShooter.setNeutralMode(NeutralMode.Coast);
     rightShooter.setInverted(false);
     leftShooter.setInverted(true);
 

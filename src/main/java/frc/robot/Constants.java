@@ -73,8 +73,8 @@ public final class Constants
     public static final int[] SHIFTER_SOLENOID = {0,1};
 
     //shooter motor constants
-    public static final int RIGHT_SHOOTER_MOTOR = 10;
-    public static final int LEFT_SHOOTER_MOTOR = 11;
+    public static final int RIGHT_SHOOTER_MOTOR = 1;
+    public static final int LEFT_SHOOTER_MOTOR = 0;
 
     //distance calc constants
     public static final double KNOWN_DISTANCE = 161.3; //inches
