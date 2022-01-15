@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,16 +23,16 @@ public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsystem.
    */
-  private TalonFX rightShooter;
-  private TalonFX leftShooter;
+  private WPI_TalonFX rightShooter;
+  private WPI_TalonFX leftShooter;
   
   public ShooterSubsystem() {
   
-    rightShooter = new TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
-    leftShooter = new TalonFX(Constants.LEFT_SHOOTER_MOTOR);
+    rightShooter = new WPI_TalonFX(Constants.RIGHT_SHOOTER_MOTOR);
+    leftShooter = new WPI_TalonFX(Constants.LEFT_SHOOTER_MOTOR);
     
-    rightShooter.setNeutralMode(NeutralMode.Brake);
-    leftShooter.setNeutralMode(NeutralMode.Brake);
+    rightShooter.setNeutralMode(NeutralMode.Coast);
+    leftShooter.setNeutralMode(NeutralMode.Coast);
     rightShooter.setInverted(false);
     leftShooter.setInverted(true);
 
