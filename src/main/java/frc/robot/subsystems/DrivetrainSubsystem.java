@@ -55,7 +55,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         leftTalon1 = new WPI_TalonSRX(Constants.LEFT_FALCON_ONE);
         leftVictor2 = new WPI_VictorSPX(Constants.LEFT_FALCON_TWO);
         leftVictor3 = new WPI_VictorSPX(Constants.LEFT_FALCON_THREE);
-        
+        // !ATTENTION! Right Talon 2 is inverted in phoenix tuner. Do not mess with Inversions in code.
         rightTalon1.setInverted(true);
         rightTalon2.setInverted(true);
         rightVictor3.setInverted(true);
